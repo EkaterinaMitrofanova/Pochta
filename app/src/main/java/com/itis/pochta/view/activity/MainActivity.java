@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        toolbarBinding = DataBindingUtil.setContentView(this, R.layout.toolbar);
 
         setSupportActionBar(toolbarBinding.toolbar);
         getSupportActionBar().setTitle(R.string.title);
