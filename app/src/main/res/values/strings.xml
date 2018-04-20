@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Pochta</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_login">ЛОГИН</string>
+    <string name="prompt_password">ПАРОЛЬ</string>
+    <string name="action_sign_in">ВОЙТИ</string>
+
+    <string name="navigation_profile">Профиль</string>
+    <string name="navigation_orders">Отслеживание</string>
+    <string name="navigation_create_orders">Оформить</string>
+
+    <string name="title">POSTMALL</string>
+
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+</resources>
