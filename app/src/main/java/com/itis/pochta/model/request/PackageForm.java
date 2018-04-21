@@ -7,16 +7,16 @@ public class PackageForm {
     @SerializedName("volume")
     private double volume;
 
-    @SerializedName("user_login")
-    private String user_login;
+    @SerializedName("consumer_phone")
+    private String consumer_phone;
 
     @SerializedName("dest_id")
     private long dest_id;
 
 
-    public PackageForm(double volume, String user_login, long dest_id) {
+    public PackageForm(double volume, String consumer_phone, long dest_id) {
         this.volume = volume;
-        this.user_login = user_login;
+        this.consumer_phone = consumer_phone;
         this.dest_id = dest_id;
     }
 
@@ -31,12 +31,12 @@ public class PackageForm {
         this.volume = volume;
     }
 
-    public String getUser_login() {
-        return user_login;
+    public String getConsumer_phone() {
+        return consumer_phone;
     }
 
-    public void setUser_login(String user_login) {
-        this.user_login = user_login;
+    public void setConsumer_phone(String consumer_phone) {
+        this.consumer_phone = consumer_phone;
     }
 
     public long getDest_id() {

@@ -1,11 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.fragment.PackageFragment">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_text_layout"
+            style="@style/TextInputLayout">
+
+            <EditText
+                android:id="@+id/volume"
+                style="@style/EditTextView"
+                android:hint="@string/prompt_volume"
+                android:inputType="numberDecimal" />
+
+        </android.support.design.widget.TextInputLayout>
 
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_text_layout"
+            style="@style/TextInputLayout">
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/sender"
+                style="@style/EditTextView"
+                android:hint="@string/prompt_sender"
+                android:inputType="phone"
+                android:maxLength="11"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_text_layout"
+            style="@style/TextInputLayout"
+            android:paddingTop="12dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/storage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_storage"
+                style="@style/EditTextView"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/action_change_storage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_change"
+            android:layout_margin="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/action_package"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/action_checkout"
+            android:background="@drawable/button"
+            android:textColor="@color/colorTextLight"
+            android:enabled="true"/>
+
+    </LinearLayout>
+
 </layout>

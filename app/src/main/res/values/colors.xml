@@ -9,5 +9,7 @@
     <color name="colorBackgroundLight">#fff</color>
     <color name="colorNavigationBackground">#ebebeb</color>
     <color name="colorNavigationItem">#464646</color>
+    <color name="colorBackgroundDark">#ebebeb</color>
+    <color name="colorNotEnabled">#F0AEAF</color>
 
 </resources>

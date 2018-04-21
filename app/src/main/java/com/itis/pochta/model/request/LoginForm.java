@@ -1,13 +1,21 @@
 package com.itis.pochta.model.request;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LoginForm {
 
+    @SerializedName("login")
     private String login;
+
+    @SerializedName("password")
     private String password;
 
     public LoginForm(String login, String password) {
         this.login = login;
         this.password = password;
+    }
+
+    public LoginForm() {
     }
 
     public String getLogin() {
@@ -24,10 +32,5 @@ public class LoginForm {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public LoginForm() {
-
-
     }
 }

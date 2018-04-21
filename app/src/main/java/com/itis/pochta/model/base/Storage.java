@@ -4,12 +4,14 @@ public class Storage {
 
     private long id;
     private String name;
+    private String address;
     private double lon;
     private double lat;
 
-    public Storage(long id, String name, double lon, double lat) {
+    public Storage(long id, String name, String address, double lon, double lat) {
         this.id = id;
         this.name = name;
+        this.address = address;
         this.lon = lon;
         this.lat = lat;
     }
@@ -31,6 +33,14 @@ public class Storage {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public double getLon() {
