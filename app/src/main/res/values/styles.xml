@@ -21,7 +21,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.Translucent" parent="@android:style/Theme.Material.NoActionBar.TranslucentDecor">
+    <style name="AppTheme.NoActionBar.Translucent" parent="Theme.Design.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:colorPrimary">@color/colorPrimary</item>

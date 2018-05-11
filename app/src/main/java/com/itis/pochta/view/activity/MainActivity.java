@@ -1,6 +1,8 @@
 package com.itis.pochta.view.activity;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -18,6 +20,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public static final String TAG_CREATE_ORDER = "com.itis.pochta.view.fragment.create_order";
 
     private ActivityMainBinding binding;
+
+    public static void start(Context context, boolean clearTop) {
+        Intent starter = new Intent(context, MainActivity.class);
+        if (clearTop){
+            starter.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

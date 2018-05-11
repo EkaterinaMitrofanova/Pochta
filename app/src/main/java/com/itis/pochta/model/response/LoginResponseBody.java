@@ -1,9 +1,14 @@
 package com.itis.pochta.model.response;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "login")
 public class LoginResponseBody {
 
+    @PrimaryKey
     @SerializedName("user_id")
     private long id;
 

@@ -1,38 +1,64 @@
 package com.itis.pochta.view.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
+import android.widget.Toast;
 
+import com.itis.pochta.App;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.ActivityLoginBinding;
 import com.itis.pochta.model.request.LoginForm;
+import com.itis.pochta.repository.UserRepository;
 
-public class LoginActivity extends Activity {
+import javax.inject.Inject;
+
+public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+
+    @Inject
+    UserRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        App.getComponent().inject(this);
+
+        binding.actionLogin.setOnClickListener(v -> {
+            repository.logIn(getForm());
+        });
+
+        repository.isLoggedIn().observe(this, isLogged -> {
+            if (isLogged != null && isLogged){
+                MainActivity.start(this, true);
+                finish();
+            }
+        });
+
+        repository.getStatusLiveData().observe(this, statuses -> {
+            switch (statuses){
+                case HANDLE:
+                    binding.loginProgress.setVisibility(View.GONE);
+                    break;
+                case LOADING:
+                    binding.loginProgress.setVisibility(View.VISIBLE);
+                    break;
+            }
+        });
+
+        repository.getErrorLiveData().observe(this, s -> {
+            if (s != null) {
+                Log.e("LOGIN", s);
+                Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-    public void login(View view) {
-        //todo: Login
-        startActivity(new Intent(this, MainActivity.class));
-    }
-
-    public LoginForm getForm(){
+    private LoginForm getForm(){
         return new LoginForm(binding.login.getText().toString(), binding.password.getText().toString());
     }
 
