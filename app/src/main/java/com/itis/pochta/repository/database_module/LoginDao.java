@@ -8,15 +8,13 @@ import android.arch.persistence.room.Query;
 
 import com.itis.pochta.model.response.LoginResponseBody;
 
-import java.util.List;
-
 @Dao
 public interface LoginDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(LoginResponseBody loginResponseBody);
 
-    @Query("SELECT * FROM login")
-    LiveData<List<LoginResponseBody>> getLogin();
+    @Query("SELECT * FROM login LIMIT 1")
+    LiveData<LoginResponseBody> getLogin();
 
     @Query("DELETE FROM login")
     void clearAll();

@@ -3,7 +3,6 @@ package com.itis.pochta.view.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,6 +11,7 @@ import com.itis.pochta.R;
 import com.itis.pochta.databinding.ActivityLoginBinding;
 import com.itis.pochta.model.request.LoginForm;
 import com.itis.pochta.repository.UserRepository;
+import com.itis.pochta.repository.utils.ResponseLiveData;
 
 import javax.inject.Inject;
 
@@ -25,40 +25,37 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         App.getComponent().inject(this);
 
-        binding.actionLogin.setOnClickListener(v -> {
-            repository.logIn(getForm());
-        });
-
+        //before setContentView `cause may not show if logged in
         repository.isLoggedIn().observe(this, isLogged -> {
-            if (isLogged != null && isLogged){
+            if (isLogged != null && isLogged) {
                 MainActivity.start(this, true);
                 finish();
             }
         });
 
-        repository.getStatusLiveData().observe(this, statuses -> {
-            switch (statuses){
-                case HANDLE:
-                    binding.loginProgress.setVisibility(View.GONE);
-                    break;
-                case LOADING:
-                    binding.loginProgress.setVisibility(View.VISIBLE);
-                    break;
-            }
+        //show layout if not logged in
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+
+        binding.actionLogin.setOnClickListener(v -> {
+            repository.logIn(getForm()).observe(
+                    this,
+                    responseBody -> {
+                        //nothing, because handle it in isLoggedIn
+                    },
+                    status -> binding.loginProgress.setVisibility(
+                            status == ResponseLiveData.Status.LOADING
+                                    ? View.VISIBLE
+                                    : View.GONE
+                    ),
+                    throwable -> Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show()
+            );
         });
 
-        repository.getErrorLiveData().observe(this, s -> {
-            if (s != null) {
-                Log.e("LOGIN", s);
-                Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
-    private LoginForm getForm(){
+    private LoginForm getForm() {
         return new LoginForm(binding.login.getText().toString(), binding.password.getText().toString());
     }
 

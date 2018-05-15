@@ -6,18 +6,14 @@ import android.support.annotation.Nullable;
 
 import com.itis.pochta.App;
 import com.itis.pochta.model.request.LoginForm;
-import com.itis.pochta.model.response.BaseResponse;
 import com.itis.pochta.model.response.LoginResponseBody;
 import com.itis.pochta.repository.database_module.PostDatabase;
 import com.itis.pochta.repository.net_module.UserApi;
-
-import java.util.List;
+import com.itis.pochta.repository.utils.ResponseLiveData;
 
 import javax.inject.Inject;
 
 public class UserRepository {
-    private Loader<LoginResponseBody> loader;
-
     @Inject
     PostDatabase database;
 
@@ -26,13 +22,6 @@ public class UserRepository {
 
     public UserRepository() {
         App.getComponent().inject(this);
-        loader = new Loader<LoginResponseBody>() {
-            @Override
-            void set(BaseResponse<LoginResponseBody> result) {
-                database.getLoginDao().clearAll();
-                database.getLoginDao().insert(result.getBody());
-            }
-        };
     }
 
     /**
@@ -42,7 +31,7 @@ public class UserRepository {
     public LiveData<Boolean> isLoggedIn() {
         MutableLiveData<Boolean> liveData = new MutableLiveData<>();
         database.getLoginDao().getLogin().observeForever(loginResponseBodies -> {
-            if ((loginResponseBodies != null ? loginResponseBodies.size() : 0) == 0) {
+            if (loginResponseBodies == null) {
                 liveData.postValue(false);
             } else {
                 liveData.postValue(true);
@@ -52,25 +41,27 @@ public class UserRepository {
     }
 
     /**
-     * ATTENTION!!! Use it only on Android main thread
      * Returns token if exists
      * Null if empty
      */
     @Nullable
     private String getToken() {
-        List<LoginResponseBody> list = database.getLoginDao().getLogin().getValue();
-        if ((list != null ? list.size() : 0) == 0) {
+        LoginResponseBody list = database.getLoginDao().getLogin().getValue();
+        if (list == null) {
             return null;
         } else {
-            return list.get(0).getToken();
+            return list.getToken();
         }
     }
 
-    /**
-     * Result will return to isLoggedIn method
-     */
-    public void logIn(LoginForm loginForm) {
-        loader.load(userApi.login(loginForm));
+    public ResponseLiveData<LoginResponseBody> logIn(LoginForm loginForm) {
+        ResponseLiveData<LoginResponseBody> data = new ResponseLiveData<>(() -> database.getLoginDao().getLogin());
+        Loader<LoginResponseBody> loader = body -> {
+            database.getLoginDao().clearAll();
+            database.getLoginDao().insert(body);
+        };
+        loader.load(userApi.login(loginForm), data);
+        return data;
     }
 
     /**
@@ -78,14 +69,6 @@ public class UserRepository {
      */
     public void logOut() {
         database.getLoginDao().clearAll();
-    }
-
-    public LiveData<String> getErrorLiveData() {
-        return loader.getErrorLiveData();
-    }
-
-    public LiveData<Statuses> getStatusLiveData() {
-        return loader.getStatusLiveData();
     }
 
 }
