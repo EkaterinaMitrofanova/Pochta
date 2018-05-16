@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         binding.actionLogin.setOnClickListener(v -> {
-            repository.logIn(getForm()).observe(
+            repository.getLoginResponse(getForm()).observe(
                     this,
                     responseBody -> {
                         //nothing, because handle it in isLoggedIn

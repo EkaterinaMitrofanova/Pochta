@@ -54,13 +54,15 @@ public class UserRepository {
         }
     }
 
-    public ResponseLiveData<LoginResponseBody> logIn(LoginForm loginForm) {
+    public ResponseLiveData<LoginResponseBody> getLoginResponse(@Nullable LoginForm loginForm) {
         ResponseLiveData<LoginResponseBody> data = new ResponseLiveData<>(() -> database.getLoginDao().getLogin());
-        Loader<LoginResponseBody> loader = body -> {
-            database.getLoginDao().clearAll();
-            database.getLoginDao().insert(body);
-        };
-        loader.load(userApi.login(loginForm), data);
+        if (loginForm != null) {
+            Loader<LoginResponseBody> loader = body -> {
+                database.getLoginDao().clearAll();
+                database.getLoginDao().insert(body);
+            };
+            loader.load(userApi.login(loginForm), data);
+        }
         return data;
     }
 
