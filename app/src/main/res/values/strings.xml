@@ -4,29 +4,44 @@
     <!-- Strings related to login -->
     <string name="prompt_login">ЛОГИН</string>
     <string name="prompt_password">ПАРОЛЬ</string>
-    <string name="prompt_volume">Объем</string>
-    <string name="prompt_sender">Номер отправителя</string>
     <string name="prompt_storage">Пункт доставки</string>
+    <string name="prompt_city_of_storage">Город доставки</string>
+    <string name="prompt_email">Почта</string>
+    <string name="prompt_phone_number">Телефон</string>
+    <!-- package -->
+    <string name="prompt_ticket">Номер</string>
+    <string name="prompt_volume">Объем</string>
+    <string name="prompt_status">Статус</string>
+    <string name="prompt_date">Дата оформления</string>
+    <string name="prompt_location">Местоположение</string>
+    <string name="prompt_destination">Пункт выдачи</string>
+    <string name="prompt_user">Отправитель</string>
+    <string name="prompt_sender_phone">Телефон</string>
+
+    <string name="hint_ticket">Номер отслеживания</string>
 
     <string name="action_sign_in">ВОЙТИ</string>
-    <string name="action_change">Изменить</string>
+    <string name="action_on_map">На карте</string>
     <string name="action_checkout">Оформить</string>
+    <string name="action_logout">Выйти</string>
+    <string name="action_issued">Подтвердить выдачу</string>
 
     <string name="navigation_profile">Профиль</string>
-    <string name="navigation_orders">Отслеживание</string>
+    <string name="navigation_tracking">Отслеживание</string>
     <string name="navigation_create_orders">Оформить</string>
+    <string name="navigation_orders">Заказы</string>
+    <string name="navigation_packages">Посылки</string>
 
     <string name="title">POSTMALL</string>
     <string name="title_package">Оформление посылки</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_tracking">Отслеживание посылки</string>
 
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="error_storage_choice">Ошибка выбора пункта</string>
-
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="error_invalid_email">Неверный email</string>
+    <string name="error_short_password">В пароле должно быть не менее 6 символов</string>
+    <string name="error_field_required">Поле обязательно для заполнения</string>
+    <string name="error_storage_choice">Пункт не был выбран</string>
+    <string name="error_invalid_phone">Номер введён неверно</string>
+    <string name="action_cancel">Отмена</string>
 
 </resources>

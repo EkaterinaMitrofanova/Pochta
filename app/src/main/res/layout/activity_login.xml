@@ -67,7 +67,7 @@
                     android:layout_marginBottom="80dp"
                     android:layout_centerHorizontal="true"
                     android:text="@string/title"
-                    android:textColor="@color/colorTextLight"
+                    android:textColor="@color/colorTextWhite"
                     android:textSize="28sp"
                     android:textStyle="bold" />
 
@@ -78,9 +78,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/login_layout"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/login_button"
+                    android:background="@drawable/button"
                     android:text="@string/action_sign_in"
-                    android:textColor="@color/colorTextLight"
+                    android:textColor="@color/colorTextWhite"
                     android:textSize="18sp"/>
 
             </RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_orders"
+            android:title="@string/navigation_orders" />
+
+    <item
+            android:id="@+id/nav_packages"
+            android:icon="@drawable/ic_packages"
+            android:title="@string/navigation_packages" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/navigation_profile" />
+
+</menu>

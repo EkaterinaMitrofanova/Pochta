@@ -3,8 +3,10 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#D61C1D</color>
-    <color name="colorTextLight">#ffffff</color>
+    <color name="colorAccentDark">#991b1c</color>
+    <color name="colorTextWhite">#ffffff</color>
     <color name="colorTextDark">#212121</color>
+    <color name="colorTextLight">#949494</color>
     <color name="colorHint">#c9c6c5</color>
     <color name="colorBackgroundLight">#fff</color>
     <color name="colorNavigationBackground">#ebebeb</color>

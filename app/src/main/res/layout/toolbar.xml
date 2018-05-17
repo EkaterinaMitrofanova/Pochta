@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolbar_left_view"
             android:layout_alignParentStart="true"
-            android:textColor="@color/colorTextLight"
+            android:textColor="@color/colorTextWhite"
             android:layout_centerVertical="true"
             android:textSize="17sp"
             />

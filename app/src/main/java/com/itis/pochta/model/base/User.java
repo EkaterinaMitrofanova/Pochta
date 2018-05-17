@@ -1,6 +1,8 @@
 package com.itis.pochta.model.base;
 
-public class User {
+import com.itis.pochta.model.response.LoginResponseBody;
+
+public class User extends LoginResponseBody{
 
     private String name;
     private String email;

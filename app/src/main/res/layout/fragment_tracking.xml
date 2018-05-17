@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="mypackage"
+            type="com.itis.pochta.model.base.MyPackage" />
+    </data>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroundLight"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/search"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/button_square"
+            android:src="@drawable/ic_search"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorTextWhite" />
+
+        <EditText
+            android:id="@+id/searchTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="50dp"
+            android:paddingStart="10dp"
+            android:textSize="18sp"
+            android:layout_toStartOf="@id/search"
+            android:textColor="@color/colorTextDark"
+            android:hint="@string/hint_ticket"
+            android:inputType="text"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/package_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/LineItem">
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_status"/>
+                <TextView
+                    android:id="@+id/status"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.status}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                style="@style/LineItem">
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_ticket"/>
+                <TextView
+                    android:id="@+id/ticket"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.ticket}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                style="@style/LineItem">
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_location"/>
+                <TextView
+                    android:id="@+id/location"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.location}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                style="@style/LineItem">
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_volume"/>
+                <TextView
+                    android:id="@+id/volume"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.volume}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                style="@style/LineItem">
+
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_date"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/LineDataText" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                style="@style/LineItem">
+
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_phone_number"/>
+
+                <TextView
+                    android:id="@+id/phone"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.phone}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                style="@style/LineItem">
+
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_destination"/>
+                <TextView
+                    android:id="@+id/destination"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.destination}"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/action_issued"
+                android:textColor="@color/colorTextWhite"
+                android:background="@drawable/button"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+</layout>

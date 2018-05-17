@@ -1,6 +1,6 @@
 package com.itis.pochta.model.base;
 
-public class Storage {
+public class MyStorage {
 
     private long id;
     private String name;
@@ -8,7 +8,7 @@ public class Storage {
     private double lon;
     private double lat;
 
-    public Storage(long id, String name, String address, double lon, double lat) {
+    public MyStorage(long id, String name, String address, double lon, double lat) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -16,7 +16,7 @@ public class Storage {
         this.lat = lat;
     }
 
-    public Storage() {
+    public MyStorage() {
     }
 
     public long getId() {
@@ -57,5 +57,10 @@ public class Storage {
 
     public void setLat(double lat) {
         this.lat = lat;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -16,9 +16,9 @@
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         app:itemBackground="@color/colorNavigationBackground"
-        app:itemIconTint="@color/colorNavigationItem"
-        app:itemTextColor="@color/colorTextDark"
-        app:menu="@menu/menu_navigation" />
+        app:itemIconTint="@color/bottom_navigation_item_background_colors"
+        app:itemTextColor="@color/bottom_navigation_item_background_colors"
+         />
 
     <FrameLayout
         android:id="@+id/fragment_container"

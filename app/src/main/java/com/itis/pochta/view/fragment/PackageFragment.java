@@ -9,21 +9,39 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.FragmentPackageBinding;
+import com.itis.pochta.model.base.City;
+import com.itis.pochta.model.base.MyStorage;
+import com.itis.pochta.model.request.PackageForm;
+import com.itis.pochta.util.CityAdapter;
+import com.itis.pochta.util.StorageAdapter;
+import com.itis.pochta.view.ViewListener;
 import com.itis.pochta.view.activity.MapActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PackageFragment extends Fragment implements View.OnClickListener{
 
     private FragmentPackageBinding binding;
+    private ViewListener viewListener;
+    private PackageForm packageForm;
+
     public static final int CODE_MAP = 1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_package, container, false);
+
+        viewListener = (ViewListener) getActivity();
+        viewListener.setFragment(getTag());
+        viewListener.setTitle(R.string.title_package);
 
         initViews();
         return binding.getRoot();
@@ -32,6 +50,38 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
     private void initViews(){
         binding.actionChangeStorage.setOnClickListener(this);
         binding.actionPackage.setOnClickListener(this);
+
+        packageForm = new PackageForm();
+
+        binding.city.setOnItemClickListener((parent, view, position, id) -> {
+            binding.storage.setText("");
+            binding.storage.clearListSelection();
+            long cityId = ((City) binding.city.getAdapter().getItem(position)).getId();
+            //todo: Использовать cityId для получения списка Пунктов [2]
+        });
+
+        binding.storage.setOnItemClickListener((parent, view, position, id) -> {
+            long storageId = ((MyStorage) parent.getAdapter().getItem(position)).getId();
+            packageForm.setDest_id(storageId);
+        });
+    }
+
+    public void setCities(List<City> cities) {
+        //todo: При старте фрагмента получить список городов и передать сюда [3]
+
+        binding.city.setAdapter(new CityAdapter(getActivity(), cities));
+    }
+
+    public void setStorages(List<MyStorage> storages){
+        binding.storage.setAdapter(new StorageAdapter(getActivity(), storages));
+
+        if (storages != null) {
+            binding.storage.showDropDown();
+        }
+    }
+
+    public void startLoading(boolean start){
+        viewListener.startLoading(start);
     }
 
     @Override
@@ -42,9 +92,30 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
                 break;
             }
             case R.id.action_package: {
+                if (isFormValid()) {
+                    //todo: Оформить посылку [4]
+                }
                 break;
             }
         }
+    }
+
+    public PackageForm getForm(){
+        return packageForm;
+    }
+
+    private boolean isFormValid(){
+        String s;
+        boolean valid = true;
+        s = binding.sender.getText().toString();
+        if (!s.matches("8[\\d]{10}")){
+            valid = false;
+            binding.sender.setError(getString(R.string.error_invalid_phone));
+        } else {
+            packageForm.setConsumer_phone(s);
+        }
+        packageForm.setVolume(binding.volume.getText().toString());
+        return valid;
     }
 
     @Override
@@ -56,7 +127,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
                     Toast.makeText(getActivity(), getString(R.string.error_storage_choice), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                long storageId = data.getLongExtra(MapActivity.KEY_ID, -1); //todo: Send this id
+                long storageId = data.getLongExtra(MapActivity.KEY_ID, -1);
                 String address = data.getStringExtra(MapActivity.KEY_ADDRESS);
                 binding.storage.setText(address);
                 break;

@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.ActivityMapBinding;
-import com.itis.pochta.model.base.Storage;
+import com.itis.pochta.model.base.MyStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class MapActivity extends Activity implements
         }
         mMapView.getMapAsync(this);
 
-        setSearchFragment();
+//        setSearchFragment();
     }
 
     private void setSearchFragment() {
@@ -75,21 +75,8 @@ public class MapActivity extends Activity implements
                 String[] parts = place.getAddress().toString().split(", ");
                 String country = parts[parts.length - 1];
                 String city = place.getName().toString();
-                //todo: Send country and city to get list of Storages
 
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
-
-                //----todo: Remove, just for test
-                List<Storage> storages = new ArrayList<>();
-                Storage storage = new Storage();
-                storage.setId(1);
-                storage.setAddress("Казань, Баумана улица, 82");
-                storage.setName("Пункт: ТЦ Свита Холл");
-                storage.setLat(55.787426);
-                storage.setLon(49.120409);
-                storages.add(storage);
-                fillMap(storages);
-                //----
             }
 
             @Override
@@ -106,25 +93,25 @@ public class MapActivity extends Activity implements
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(55.755826, 37.6172999)));
     }
 
-    private void fillMap(List<Storage> storages){
-        for (Storage storage : storages) {
-            LatLng latLng = new LatLng(storage.getLat(), storage.getLon());
+    private void fillMap(List<MyStorage> myStorages){
+        for (MyStorage myStorage : myStorages) {
+            LatLng latLng = new LatLng(myStorage.getLat(), myStorage.getLon());
             mGoogleMap.setOnInfoWindowClickListener(this);
             Marker marker = mGoogleMap.addMarker(new MarkerOptions()
                     .position(latLng)
-                    .title(storage.getName())
-                    .snippet(storage.getAddress()));
-            marker.setTag(storage);
+                    .title(myStorage.getName())
+                    .snippet(myStorage.getAddress()));
+            marker.setTag(myStorage);
         }
     }
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Storage storage = (Storage) marker.getTag();
-        if (storage != null) {
+        MyStorage myStorage = (MyStorage) marker.getTag();
+        if (myStorage != null) {
             Intent intent = new Intent();
-            intent.putExtra(KEY_ID, storage.getId());
-            intent.putExtra(KEY_ADDRESS, storage.getAddress());
+            intent.putExtra(KEY_ID, myStorage.getId());
+            intent.putExtra(KEY_ADDRESS, myStorage.getAddress());
             setResult(RESULT_OK, intent);
         } else {
             setResult(RESULT_CANCELED);

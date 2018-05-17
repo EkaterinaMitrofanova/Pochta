@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.fragment.ProfileFragment">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundLight"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorTextDark"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/LineItem">
+
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_email"/>
+
+                <TextView
+                    android:id="@+id/email"
+                    style="@style/LineDataText"
+                    />
+                <View
+                android:id="@+id/edit_email"
+                style="@style/LineEditView"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <RelativeLayout
+                style="@style/LineItem">
+
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_phone_number"/>
+
+                <View
+                    android:id="@+id/edit_phone"
+                    style="@style/LineEditView"/>
+
+                <TextView
+                    android:id="@+id/phone"
+                    style="@style/LineDataText"
+                    android:layout_toStartOf="@id/edit_phone" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/action_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/action_logout"
+            android:background="@drawable/button"
+            android:textColor="@color/colorTextWhite" />
+    </LinearLayout>
+
+</ScrollView>
+</layout>

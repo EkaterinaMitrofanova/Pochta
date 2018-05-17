@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class PackageForm {
 
     @SerializedName("volume")
-    private double volume;
+    private String volume;
 
     @SerializedName("consumer_phone")
     private String consumer_phone;
@@ -14,7 +14,7 @@ public class PackageForm {
     private long dest_id;
 
 
-    public PackageForm(double volume, String consumer_phone, long dest_id) {
+    public PackageForm(String volume, String consumer_phone, long dest_id) {
         this.volume = volume;
         this.consumer_phone = consumer_phone;
         this.dest_id = dest_id;
@@ -23,11 +23,11 @@ public class PackageForm {
     public PackageForm() {
     }
 
-    public double getVolume() {
+    public String getVolume() {
         return volume;
     }
 
-    public void setVolume(double volume) {
+    public void setVolume(String volume) {
         this.volume = volume;
     }
 

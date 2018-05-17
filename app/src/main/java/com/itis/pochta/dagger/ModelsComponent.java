@@ -5,6 +5,7 @@ import com.itis.pochta.repository.RepositoryModule;
 import com.itis.pochta.repository.database_module.DatabaseModule;
 import com.itis.pochta.repository.net_module.NetModule;
 import com.itis.pochta.view.activity.LoginActivity;
+import com.itis.pochta.view.activity.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -17,4 +18,6 @@ public interface ModelsComponent {
     void inject(UserRepository userRepository);
 
     void inject(LoginActivity loginActivity);
+
+    void inject(MainActivity mainActivity);
 }
