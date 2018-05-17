@@ -36,6 +36,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'de.hdodenhof:circleimageview:1.1.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     //google maps
     implementation "com.google.android.gms:play-services-maps:$google_maps_version"
     implementation "com.google.android.gms:play-services-places:$google_maps_version"

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.fragment.ProfileFragment">
+    <data>
+        <variable
+            name="user"
+            type="com.itis.pochta.model.base.User" />
+    </data>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,15 +17,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/colorTextDark"
-            />
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_no_photo"
+                />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:text="@{user.name}"
+                android:textColor="@color/colorTextDark"
+                />
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +60,7 @@
                 <TextView
                     android:id="@+id/email"
                     style="@style/LineDataText"
+                    android:text="@{user.email}"
                     />
                 <View
                 android:id="@+id/edit_email"
@@ -49,23 +72,24 @@
                 android:layout_height="1dp"
                 android:background="@color/colorHint"/>
 
-            <RelativeLayout
+            <LinearLayout
                 style="@style/LineItem">
 
                 <TextView
                     style="@style/LineMainText"
                     android:text="@string/prompt_phone_number"/>
 
-                <View
-                    android:id="@+id/edit_phone"
-                    style="@style/LineEditView"/>
 
                 <TextView
                     android:id="@+id/phone"
                     style="@style/LineDataText"
-                    android:layout_toStartOf="@id/edit_phone" />
+                    android:text="@{user.number}"/>
 
-            </RelativeLayout>
+                <View
+                    android:id="@+id/edit_phone"
+                    style="@style/LineEditView"/>
+
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
