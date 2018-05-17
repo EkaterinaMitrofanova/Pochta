@@ -109,7 +109,12 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
             }
             case R.id.action_package: {
                 if (isFormValid()) {
-                    //todo: Оформить посылку [4]
+                    repository.issuePackage(packageForm).observe(
+                            this,
+                            packageResponse -> Toast.makeText(getContext(), "Succesfully created: " + packageResponse.getPackageId(), Toast.LENGTH_SHORT).show(),
+                            status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                            throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+                    );
                 }
                 break;
             }
