@@ -1,7 +1,9 @@
 package com.itis.pochta.repository;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.support.annotation.Nullable;
 
 import com.itis.pochta.App;
@@ -12,6 +14,8 @@ import com.itis.pochta.repository.net_module.UserApi;
 import com.itis.pochta.repository.utils.ResponseLiveData;
 
 import javax.inject.Inject;
+
+import io.reactivex.schedulers.Schedulers;
 
 public class UserRepository {
     @Inject
@@ -44,14 +48,8 @@ public class UserRepository {
      * Returns token if exists
      * Null if empty
      */
-    @Nullable
-    private String getToken() {
-        LoginResponseBody list = database.getLoginDao().getLogin().getValue();
-        if (list == null) {
-            return null;
-        } else {
-            return list.getToken();
-        }
+    LiveData<String> getToken() {
+        return Transformations.map(database.getLoginDao().getLogin(), LoginResponseBody::getToken);
     }
 
     public ResponseLiveData<LoginResponseBody> getLoginResponse(@Nullable LoginForm loginForm) {
@@ -69,8 +67,11 @@ public class UserRepository {
     /**
      * Result will return to isLoggedIn method
      */
+    @SuppressLint("CheckResult")
     public void logOut() {
-        database.getLoginDao().clearAll();
+        io.reactivex.Observable.just(true)
+                .subscribeOn(Schedulers.computation())
+                .subscribe(aBoolean -> database.getLoginDao().clearAll());
     }
 
 }

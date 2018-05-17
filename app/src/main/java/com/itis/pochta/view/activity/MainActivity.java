@@ -1,16 +1,13 @@
 package com.itis.pochta.view.activity;
 
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.itis.pochta.App;
@@ -19,9 +16,9 @@ import com.itis.pochta.databinding.ActivityMainBinding;
 import com.itis.pochta.repository.UserRepository;
 import com.itis.pochta.util.DialogGenerator;
 import com.itis.pochta.view.ViewListener;
-import com.itis.pochta.view.fragment.TrackingFragment;
 import com.itis.pochta.view.fragment.PackageFragment;
 import com.itis.pochta.view.fragment.ProfileFragment;
+import com.itis.pochta.view.fragment.TrackingFragment;
 
 import javax.inject.Inject;
 
@@ -110,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     }
 
     private void startTracking() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        TrackingFragment fragment = (TrackingFragment) getFragmentManager().findFragmentByTag(TAG_TRACKING);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        TrackingFragment fragment = (TrackingFragment) getSupportFragmentManager().findFragmentByTag(TAG_TRACKING);
         if (fragment != null){
             if (currentFragment.equals(TAG_TRACKING)){
                 return;
@@ -124,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     }
 
     private void startPackage(){
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        PackageFragment fragment = (PackageFragment) getFragmentManager().findFragmentByTag(TAG_CREATE_ORDER);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        PackageFragment fragment = (PackageFragment) getSupportFragmentManager().findFragmentByTag(TAG_CREATE_ORDER);
         if (fragment != null){
             if (currentFragment.equals(TAG_CREATE_ORDER)){
                 return;
@@ -138,8 +135,8 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     }
 
     private void startProfile(){
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        ProfileFragment fragment = (ProfileFragment) getFragmentManager().findFragmentByTag(TAG_PROFILE);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_PROFILE);
         if (fragment != null){
             if (currentFragment.equals(TAG_PROFILE)){
                 return;

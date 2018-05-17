@@ -15,4 +15,11 @@ public class RepositoryModule {
     public UserRepository getRepository(){
         return new UserRepository();
     }
+
+    @NonNull
+    @Provides
+    @Singleton
+    public PackageRepository getPackageRepository(){
+        return new PackageRepository();
+    }
 }

@@ -1,30 +1,32 @@
 package com.itis.pochta.view.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.itis.pochta.App;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.FragmentPackageBinding;
 import com.itis.pochta.model.base.City;
 import com.itis.pochta.model.base.MyStorage;
 import com.itis.pochta.model.request.PackageForm;
+import com.itis.pochta.repository.PackageRepository;
+import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.util.CityAdapter;
 import com.itis.pochta.util.StorageAdapter;
 import com.itis.pochta.view.ViewListener;
 import com.itis.pochta.view.activity.MapActivity;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class PackageFragment extends Fragment implements View.OnClickListener{
 
@@ -32,16 +34,27 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
     private ViewListener viewListener;
     private PackageForm packageForm;
 
+    @Inject
+    PackageRepository repository;
+
     public static final int CODE_MAP = 1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        App.getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_package, container, false);
 
         viewListener = (ViewListener) getActivity();
         viewListener.setFragment(getTag());
         viewListener.setTitle(R.string.title_package);
+
+        repository.getCities().observe(
+                this,
+                citiesResponse -> setCities(citiesResponse.getCities()),
+                status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+        );
 
         initViews();
         return binding.getRoot();
@@ -57,7 +70,12 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
             binding.storage.setText("");
             binding.storage.clearListSelection();
             long cityId = ((City) binding.city.getAdapter().getItem(position)).getId();
-            //todo: Использовать cityId для получения списка Пунктов [2]
+            repository.getStorages(String.valueOf(cityId), null).observe(
+                    this,
+                    storagesResponse -> setStorages(storagesResponse.getMyStorages()),
+                    status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                    throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+            );
         });
 
         binding.storage.setOnItemClickListener((parent, view, position, id) -> {
@@ -67,8 +85,6 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
     }
 
     public void setCities(List<City> cities) {
-        //todo: При старте фрагмента получить список городов и передать сюда [3]
-
         binding.city.setAdapter(new CityAdapter(getActivity(), cities));
     }
 
