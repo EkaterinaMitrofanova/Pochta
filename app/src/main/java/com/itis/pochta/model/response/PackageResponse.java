@@ -4,21 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class PackageResponse {
 
-    @SerializedName("id")
-    private long packageId;
-
-    public PackageResponse(long packageId) {
-        this.packageId = packageId;
-    }
+    @SerializedName("ticket")
+    private String ticket;
 
     public PackageResponse() {
     }
 
-    public long getPackageId() {
-        return packageId;
+    public String getTicket() {
+        return ticket;
     }
 
-    public void setPackageId(long packageId) {
-        this.packageId = packageId;
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
+
 }

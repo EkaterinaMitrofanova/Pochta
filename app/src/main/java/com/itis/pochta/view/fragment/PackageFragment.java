@@ -111,7 +111,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
                 if (isFormValid()) {
                     repository.issuePackage(packageForm).observe(
                             this,
-                            packageResponse -> Toast.makeText(getContext(), "Succesfully created: " + packageResponse.getPackageId(), Toast.LENGTH_SHORT).show(),
+                            packageResponse -> Toast.makeText(getContext(), "Succesfully created: " + packageResponse.getTicket(), Toast.LENGTH_SHORT).show(),
                             status -> startLoading(status == ResponseLiveData.Status.LOADING),
                             throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
                     );
