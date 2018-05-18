@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="mypackage"
+            type="com.itis.pochta.model.base.MyPackage" />
+        <variable name="click"
+            type="com.itis.pochta.view.listener.PackageClickHandler" />
+    </data>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:background="@color/colorBackgroundLight">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CardViewPackage">
+
+        <LinearLayout
+            android:id="@+id/package_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/LineItem">
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_status"/>
+                <TextView
+                    android:id="@+id/status"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.status}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                style="@style/LineItem">
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_ticket"/>
+                <TextView
+                    android:id="@+id/ticket"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.ticket}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                style="@style/LineItem">
+                <TextView
+                    style="@style/LineMainText"
+                    android:text="@string/prompt_location"/>
+                <TextView
+                    android:id="@+id/location"
+                    style="@style/LineDataText"
+                    android:text="@{mypackage.location}"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHint"/>
+
+            <LinearLayout
+                android:id="@+id/more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/LineItem">
+                    <TextView
+                        style="@style/LineMainText"
+                        android:text="@string/prompt_volume"/>
+                    <TextView
+                        android:id="@+id/volume"
+                        style="@style/LineDataText"
+                        android:text="@{mypackage.volume}"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"/>
+
+                <LinearLayout
+                    style="@style/LineItem">
+
+                    <TextView
+                        style="@style/LineMainText"
+                        android:text="@string/prompt_date"/>
+
+                    <TextView
+                        android:id="@+id/date"
+                        style="@style/LineDataText" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"/>
+
+                <LinearLayout
+                    style="@style/LineItem">
+
+                    <TextView
+                        style="@style/LineMainText"
+                        android:text="@string/prompt_phone_number"/>
+
+                    <TextView
+                        android:id="@+id/phone"
+                        style="@style/LineDataText"
+                        android:text="@{mypackage.phone}"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    style="@style/LineItem">
+
+                    <TextView
+                        style="@style/LineMainText"
+                        android:text="@string/prompt_destination"/>
+                    <TextView
+                        android:id="@+id/destination"
+                        style="@style/LineDataText"
+                        android:text="@{mypackage.destination}"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/button_square"
+                android:text="@string/action_issued"
+                android:textColor="@color/colorTextWhite"
+                android:onClick="@{click.onAcceptClick}"
+                />
+
+            <ImageButton
+                android:id="@+id/action_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_arrow_down"
+                android:onClick="@{click.onShowMoreClick}"
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>
+</layout>

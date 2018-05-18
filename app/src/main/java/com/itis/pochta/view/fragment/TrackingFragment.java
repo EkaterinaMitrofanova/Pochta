@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,18 @@ import com.itis.pochta.repository.PackageRepository;
 import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.view.BaseView;
 import com.itis.pochta.view.ViewListener;
+import com.itis.pochta.view.adapter.PackageRvAdapter;
+import com.itis.pochta.view.listener.PackageListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
 
-public class TrackingFragment extends Fragment implements BaseView<MyPackage>{
+public class TrackingFragment extends Fragment implements BaseView<List<MyPackage>>, PackageListener{
 
     private FragmentTrackingBinding binding;
     private ViewListener viewListener;
@@ -49,15 +54,19 @@ public class TrackingFragment extends Fragment implements BaseView<MyPackage>{
 
     private void initViews(){
 
-        binding.search.setOnClickListener(v -> {
-            String ticket = binding.searchTicket.getText().toString();
-            repository.getMyPackage(ticket).observe(
-                    this,
-                    this::fillViews,
-                    status -> startLoading(status == ResponseLiveData.Status.LOADING),
-                    throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
-            );
-        });
+        binding.rv.setLayoutManager(
+                new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        binding.rv.setAdapter(new PackageRvAdapter(null, this));
+
+//        binding.search.setOnClickListener(v -> {
+//            String ticket = binding.searchTicket.getText().toString();
+//            repository.getMyPackage(ticket).observe(
+//                    this,
+//                    this::fillViews,
+//                    status -> startLoading(status == ResponseLiveData.Status.LOADING),
+//                    throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+//            );
+//        });
     }
 
     @Override
@@ -66,11 +75,13 @@ public class TrackingFragment extends Fragment implements BaseView<MyPackage>{
     }
 
     @Override
-    public void fillViews(MyPackage myPackage){
-        binding.packageInfo.setVisibility(View.VISIBLE);
-        binding.setMypackage(myPackage);
-        Date date = new Date(myPackage.getDate());
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
-        binding.date.setText(formatForDateNow.format(date));
+    public void fillViews(List<MyPackage> myPackagies){
+        ((PackageRvAdapter)binding.rv.getAdapter()).setPackages(myPackagies);
+
+    }
+
+    @Override
+    public void onItemClick(String ticket) {
+        //todo: Подтверждение выдачи [21]
     }
 }

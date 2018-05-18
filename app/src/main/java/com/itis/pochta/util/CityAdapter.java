@@ -66,10 +66,10 @@ public class CityAdapter extends ArrayAdapter<City>{
                     }
                     filterResults.values = citiesFiltered;
                     filterResults.count = citiesFiltered.size();
-                    size = citiesFiltered.size();
                 } else {
                     citiesFiltered = cities;
                 }
+                size = citiesFiltered.size();
                 return filterResults;
             }
 

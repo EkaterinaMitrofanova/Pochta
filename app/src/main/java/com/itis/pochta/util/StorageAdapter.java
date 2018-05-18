@@ -59,7 +59,7 @@ public class StorageAdapter extends ArrayAdapter<MyStorage> {
                 FilterResults filterResults = new FilterResults();
                 if(constraint != null) {
                     String charString = constraint.toString().toLowerCase();
-                    storagesFiltered.clear();
+                    storagesFiltered = new ArrayList<>();
                     for(MyStorage c: storages){
                         if(c != null && (c.getName().toLowerCase().contains(charString)
                         || c.getAddress().toLowerCase().contains(charString))) {
@@ -68,10 +68,10 @@ public class StorageAdapter extends ArrayAdapter<MyStorage> {
                     }
                     filterResults.values = storagesFiltered;
                     filterResults.count = storagesFiltered.size();
-                    size = storagesFiltered.size();
                 } else {
                     storagesFiltered = storages;
                 }
+                size = storagesFiltered.size();
                 return filterResults;
             }
 

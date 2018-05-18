@@ -187,6 +187,10 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
 
     @Override
     public void onBackPressed() {
+        if (dialogGenerator.isProgressShowing()){
+            dialogGenerator.hideProgressDialog();
+            super.onBackPressed();
+        }
         int count = getFragmentManager().getBackStackEntryCount();
         System.out.println("-----onBackPressed()------ COUNT = " + count);
         if (count == 1){

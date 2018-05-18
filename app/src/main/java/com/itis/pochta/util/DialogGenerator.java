@@ -40,6 +40,10 @@ public class DialogGenerator {
         }
     }
 
+    public boolean isProgressShowing() {
+        return progressDialog != null && progressDialog.isShowing();
+    }
+
     public void showExitDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
         dialog.setTitle("Выход");

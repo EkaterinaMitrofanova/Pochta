@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.itis.pochta.App;
@@ -23,6 +24,7 @@ import com.itis.pochta.util.CityAdapter;
 import com.itis.pochta.util.StorageAdapter;
 import com.itis.pochta.view.ViewListener;
 import com.itis.pochta.view.activity.MapActivity;
+import com.itis.pochta.view.listener.AutoCompleteListener;
 
 import java.util.List;
 
@@ -65,6 +67,13 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
         binding.actionPackage.setOnClickListener(this);
 
         packageForm = new PackageForm();
+
+        binding.setClick(new AutoCompleteListener() {
+            @Override
+            public void onViewClick(View view) {
+                ((AutoCompleteTextView)view).showDropDown();
+            }
+        });
 
         binding.city.setOnItemClickListener((parent, view, position, id) -> {
             binding.storage.setText("");
