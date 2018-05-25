@@ -3,6 +3,7 @@ package com.itis.pochta.repository;
 import android.annotation.SuppressLint;
 
 import com.itis.pochta.model.response.BaseResponse;
+import com.itis.pochta.repository.utils.ExceptionProvider;
 import com.itis.pochta.repository.utils.ResponseLiveData;
 
 import io.reactivex.Observable;
@@ -25,8 +26,7 @@ public interface Loader<T> {
                 .observeOn(Schedulers.computation())
                 .switchMap(listResult -> {
                     if (listResult.getCode() != 0) { //0 means STATUS_OK
-                        // TODO: 11.05.18 replace text with some kind of error store
-                        return ObservableError.error(new Exception("Error from Server. Code:" + listResult.getCode()));
+                        return ObservableError.error(new ExceptionProvider(null).getServerException(listResult.getCode()));
                     }
                     return Observable.just(listResult);
                 })

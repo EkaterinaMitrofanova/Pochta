@@ -6,6 +6,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import com.itis.pochta.model.base.Acceptor;
+import com.itis.pochta.model.base.Driver;
 import com.itis.pochta.model.response.LoginResponseBody;
 
 @Dao
@@ -18,4 +20,16 @@ public interface LoginDao {
 
     @Query("DELETE FROM login")
     void clearAll();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Acceptor... acceptors);
+
+    @Query("SELECT * FROM acceptor WHERE id=:id LIMIT 1")
+    LiveData<Acceptor> getAcceptorById(long id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Driver... acceptors);
+
+    @Query("SELECT * FROM driver WHERE id=:id LIMIT 1")
+    LiveData<Driver> getDriverById(long id);
 }

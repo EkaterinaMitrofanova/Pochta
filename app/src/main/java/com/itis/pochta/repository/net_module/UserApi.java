@@ -18,11 +18,13 @@ public interface UserApi {
     @POST("login")
     Observable<BaseResponse<LoginResponseBody>> login(@Body LoginForm loginForm);
 
-    @GET("/user/{id}") //14
+    @GET("/user/acceptor_info/{id}")
+        //14
     Observable<BaseResponse<Acceptor>> getAcceptor(
             @Header("token") String token, @Path("id") long id);
 
-    @GET("/user/{id}") //14
+    @GET("/user/driver_info/{id}")
+        //14
     Observable<BaseResponse<Driver>> getDriver(
             @Header("token") String token, @Path("id") long id);
 }

@@ -58,7 +58,11 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
 
         repository.getLoginResponse(null).observe(
                 this,
-                loginResponseBody -> fillBottomNavigation(loginResponseBody.getRole()),
+                loginResponseBody -> {
+                    if (loginResponseBody != null) {
+                        fillBottomNavigation(loginResponseBody.getRole());
+                    }
+                },
                 status -> {},
                 throwable -> {});
 

@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:layout_marginTop="20dp"
-                android:text="@{user.name}"
+                android:text="@{user.firstName + ' ' + user.secondName}"
                 android:textColor="@color/colorTextDark"
                 />
         </LinearLayout>
