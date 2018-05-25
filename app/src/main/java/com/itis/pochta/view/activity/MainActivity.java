@@ -183,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
 
     @Override
     public void onBackPressed() {
+        System.out.println("---OnBackPressed---");
         if (dialogGenerator.isProgressShowing()) {
             dialogGenerator.hideProgressDialog();
             super.onBackPressed();

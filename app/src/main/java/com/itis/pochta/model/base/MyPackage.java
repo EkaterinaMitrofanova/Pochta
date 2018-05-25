@@ -10,6 +10,9 @@ public class MyPackage {
     @SerializedName("volume")
     private String volume;
 
+    @SerializedName("weight")
+    private String weight;
+
     @SerializedName("status")
     private String status;
 
@@ -126,5 +129,17 @@ public class MyPackage {
 
     public void setSourceId(long sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public boolean isDone(){
+        return status.equals("Done");
     }
 }

@@ -25,7 +25,7 @@
             android:textColor="@color/colorTextWhite" />
 
         <EditText
-            android:id="@+id/searchTicket"
+            android:id="@+id/searchPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingEnd="50dp"
@@ -34,7 +34,7 @@
             android:layout_toStartOf="@id/search"
             android:textColor="@color/colorTextDark"
             android:hint="@string/prompt_phone_number"
-            android:inputType="text"/>
+            android:inputType="phone"/>
 
     </RelativeLayout>
 

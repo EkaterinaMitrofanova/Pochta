@@ -129,10 +129,6 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public PackageForm getForm(){
-        return packageForm;
-    }
-
     private boolean isFormValid(){
         String s;
         boolean valid = true;
@@ -143,7 +139,20 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
         } else {
             packageForm.setConsumer_phone(s);
         }
-        packageForm.setVolume(binding.volume.getText().toString());
+        s = binding.weight.getText().toString();
+        if (s.isEmpty()){
+            valid = false;
+            binding.weight.setError(getString(R.string.error_field_required));
+        } else {
+            packageForm.setWeight(s);
+        }
+        s = binding.volume.getText().toString();
+        if (s.isEmpty()) {
+            valid = false;
+            binding.volume.setError(getString(R.string.error_field_required));
+        } else {
+            packageForm.setVolume(s);
+        }
         return valid;
     }
 

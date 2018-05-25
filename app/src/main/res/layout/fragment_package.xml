@@ -32,6 +32,20 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_text_layout"
+                style="@style/TextInputLayout">
+
+                <EditText
+                    android:id="@+id/weight"
+                    style="@style/EditTextView"
+                    android:hint="@string/prompt_weight"
+                    android:inputType="numberDecimal" />
+
+            </android.support.design.widget.TextInputLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

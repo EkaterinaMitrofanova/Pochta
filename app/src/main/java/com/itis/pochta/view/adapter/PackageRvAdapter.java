@@ -40,6 +40,12 @@ public class PackageRvAdapter extends RecyclerView.Adapter<PackageRvAdapter.Pack
         notifyDataSetChanged();
     }
 
+    public void update(int position){
+        if (packages == null) return;
+        packages.get(position).setStatus("Done");
+        notifyItemChanged(position);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull PackageHolder holder, int position) {
         MyPackage myPackage = packages.get(position);
@@ -48,10 +54,13 @@ public class PackageRvAdapter extends RecyclerView.Adapter<PackageRvAdapter.Pack
         holder.binding.date.setText(formatForDateNow.format(date));
 
         holder.binding.setMypackage(myPackage);
+        if (myPackage.isDone()){
+            holder.binding.actionAccept.setVisibility(View.GONE);
+        }
         holder.binding.setClick(new PackageClickHandler() {
             @Override
             public void onAcceptClick(View view) {
-                listener.onItemClick(myPackage.getTicket());
+                listener.onItemClick(myPackage.getTicket(), position);
             }
 
             @Override

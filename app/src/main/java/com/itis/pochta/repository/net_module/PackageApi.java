@@ -6,6 +6,7 @@ import com.itis.pochta.model.request.PackageForm;
 import com.itis.pochta.model.response.BaseResponse;
 import com.itis.pochta.model.response.CitiesResponse;
 import com.itis.pochta.model.response.PackageResponse;
+import com.itis.pochta.model.response.PackagesListResponse;
 import com.itis.pochta.model.response.StoragesResponse;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface PackageApi {
     @GET("/city")
     Observable<BaseResponse<CitiesResponse>> getCities();
 
-    @GET("/storage")
+    @GET("/storage?type=0")
     Observable<BaseResponse<StoragesResponse>> getStorages(
             @Query("city_id") String country, @Query("city") String city);
 
@@ -32,4 +33,8 @@ public interface PackageApi {
 
     @GET("/package")
     Observable<BaseResponse<MyPackage>> getPackage(@Query("ticket") String ticket);
+
+    @GET("/package/by_phone")
+    Observable<BaseResponse<PackagesListResponse>> getPackagesByPhone(
+            @Query("phone") String phone, @Query("storage") long storageId);
 }

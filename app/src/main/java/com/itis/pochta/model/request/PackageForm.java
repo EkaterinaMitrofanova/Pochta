@@ -7,6 +7,9 @@ public class PackageForm {
     @SerializedName("volume")
     private String volume;
 
+    @SerializedName("weight")
+    private String weight;
+
     @SerializedName("consumer_phone")
     private String consumer_phone;
 
@@ -45,5 +48,13 @@ public class PackageForm {
 
     public void setDest_id(long dest_id) {
         this.dest_id = dest_id;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 }

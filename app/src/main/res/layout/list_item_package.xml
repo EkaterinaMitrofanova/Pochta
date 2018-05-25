@@ -105,6 +105,23 @@
 
                 <LinearLayout
                     style="@style/LineItem">
+                    <TextView
+                        style="@style/LineMainText"
+                        android:text="@string/prompt_weight"/>
+                    <TextView
+                        android:id="@+id/weight"
+                        style="@style/LineDataText"
+                        android:text="@{mypackage.weight}"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"/>
+
+                <LinearLayout
+                    style="@style/LineItem">
 
                     <TextView
                         style="@style/LineMainText"
@@ -160,6 +177,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/action_accept"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"

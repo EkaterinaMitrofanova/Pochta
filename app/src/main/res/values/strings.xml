@@ -11,6 +11,7 @@
     <!-- package -->
     <string name="prompt_ticket">Номер</string>
     <string name="prompt_volume">Объем</string>
+    <string name="prompt_weight">Вес</string>
     <string name="prompt_status">Статус</string>
     <string name="prompt_date">Дата оформления</string>
     <string name="prompt_location">Местоположение</string>
