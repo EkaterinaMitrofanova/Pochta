@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class LoginResponseBody {
 
     @PrimaryKey
-    @SerializedName("user_id")
+    @SerializedName("id")
     private long id;
 
     @SerializedName("role")

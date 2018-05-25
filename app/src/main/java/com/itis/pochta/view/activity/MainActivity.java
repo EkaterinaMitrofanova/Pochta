@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     private DialogGenerator dialogGenerator;
 
     private ActivityMainBinding binding;
+    private boolean isBottomFilled = false;
 
     @Inject
     UserRepository repository;
@@ -56,15 +57,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
 
         initViews();
 
-        repository.getLoginResponse(null).observe(
-                this,
-                loginResponseBody -> {
-                    if (loginResponseBody != null) {
-                        fillBottomNavigation(loginResponseBody.getRole());
-                    }
-                },
-                status -> {},
-                throwable -> {});
+        repository.getRole().observe(this, this::fillBottomNavigation);
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
 
@@ -81,10 +74,13 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     }
 
     private void fillBottomNavigation(String role){
-        if (role.equals("ACCEPTOR")){
-            binding.bottomNavigation.inflateMenu(R.menu.menu_acceptor);
-        } else {
-            binding.bottomNavigation.inflateMenu(R.menu.menu_driver);
+        if (!isBottomFilled) {
+            if (role.equals("ACCEPTOR")) {
+                binding.bottomNavigation.inflateMenu(R.menu.menu_acceptor);
+            } else {
+                binding.bottomNavigation.inflateMenu(R.menu.menu_driver);
+            }
+            isBottomFilled = true;
         }
         if (currentFragment == null){
             startProfile();

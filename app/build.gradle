@@ -63,5 +63,5 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     //liva data
-    implementation "android.arch.lifecycle:livedata:1.1.1"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
 }

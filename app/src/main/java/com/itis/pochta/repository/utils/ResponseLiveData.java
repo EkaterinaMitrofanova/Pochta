@@ -17,6 +17,15 @@ public class ResponseLiveData<T> {
         statusLiveData.postValue(Status.HANDLE);
     }
 
+    public ResponseLiveData(ResponseLiveData<T> responseLiveData) {
+        bodyLiveData = new MutableLiveData<>();
+        statusLiveData = new MutableLiveData<>();
+        throwableLiveData = new MutableLiveData<>();
+        responseLiveData.getBodyLiveData().observeForever(o -> bodyLiveData.postValue(o));
+        responseLiveData.getStatusLiveData().observeForever(status -> statusLiveData.postValue(status));
+        responseLiveData.getThrowableLiveData().observeForever(throwable -> throwableLiveData.postValue(throwable));
+    }
+
     public ResponseLiveData(CachingDataProvider<T> dataProvider) {
         bodyLiveData = new MutableLiveData<>();
         statusLiveData = new MutableLiveData<>();

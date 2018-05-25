@@ -1,5 +1,6 @@
 package com.itis.pochta.view.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,13 +15,12 @@ import com.itis.pochta.App;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.FragmentProfileBinding;
 import com.itis.pochta.model.base.User;
-import com.itis.pochta.model.response.LoginResponseBody;
 import com.itis.pochta.repository.UserRepository;
 import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.view.BaseView;
 import com.itis.pochta.view.ViewListener;
 import com.itis.pochta.view.activity.LoginActivity;
-import com.itis.pochta.view.live_datas.ProfileFragmentViewModel;
+import com.itis.pochta.view.view_models.ProfileFragmentViewModel;
 
 import javax.inject.Inject;
 
@@ -42,6 +42,8 @@ public class ProfileFragment extends Fragment implements BaseView<User> {
         viewListener.setFragment(getTag());
         viewListener.setTitle(R.string.title_profile);
 
+        viewModel = ViewModelProviders.of(this).get(ProfileFragmentViewModel.class);
+
         repository.isLoggedIn().observe(
                 this,
                 aBoolean -> {
@@ -53,46 +55,15 @@ public class ProfileFragment extends Fragment implements BaseView<User> {
                 }
         );
 
-        //todo: загрузить профиль [14] P.S.Нужно по роли узнать, кого загружать
-        repository.getLoginResponse(null).observe(
+        repository.getUserId().observe(this, aLong -> viewModel.getUser(aLong).observe(
                 this,
-                responseBody -> {
-                    fetchUserByRole(savedInstanceState, responseBody);
-                },
-                status -> {
-                },
+                this::fillViews,
+                status -> startLoading(status == ResponseLiveData.Status.LOADING),
                 throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
-        );
+        ));
 
         initViews();
         return binding.getRoot();
-    }
-
-    protected void fetchUserByRole(Bundle savedInstanceState, LoginResponseBody responseBody) {
-        switch (responseBody.getRole()) {
-            case "ACCEPTOR":
-                repository.getAcceptorUser(
-                        responseBody.getId(),
-                        savedInstanceState == null)
-                        .observe(
-                                this,
-                                this::fillViews,
-                                status -> startLoading(status == ResponseLiveData.Status.LOADING),
-                                throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show());
-                break;
-
-            case "DRIVER":
-                repository.getDriverUser(
-                        responseBody.getId(),
-                        savedInstanceState == null)
-                        .observe(
-                                this,
-                                this::fillViews,
-                                status -> startLoading(status == ResponseLiveData.Status.LOADING),
-                                throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
-                        );
-                break;
-        }
     }
 
     private void initViews() {

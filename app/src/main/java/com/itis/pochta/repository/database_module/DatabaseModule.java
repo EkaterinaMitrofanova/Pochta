@@ -11,7 +11,7 @@ import dagger.Provides;
 
 @Module
 public class DatabaseModule {
-    private static final String DATABASE_NAME="main_database";
+    private static final String DATABASE_NAME = "main_database";
     private Context context;
 
     public DatabaseModule(Context context) {
@@ -21,11 +21,13 @@ public class DatabaseModule {
     @NonNull
     @Provides
     @Singleton
-    public PostDatabase getDatabase(){
+    public PostDatabase getDatabase() {
         return Room.databaseBuilder(
                 context.getApplicationContext(),
                 PostDatabase.class,
                 DATABASE_NAME
-        ).build();
+        )
+                .fallbackToDestructiveMigration()
+                .build();
     }
 }

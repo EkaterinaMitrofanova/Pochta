@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.itis.pochta.App;
 import com.itis.pochta.model.base.Acceptor;
 import com.itis.pochta.model.base.Driver;
+import com.itis.pochta.model.base.User;
 import com.itis.pochta.model.request.LoginForm;
 import com.itis.pochta.model.response.LoginResponseBody;
 import com.itis.pochta.repository.database_module.PostDatabase;
@@ -51,6 +52,10 @@ public class UserRepository {
         return Transformations.map(database.getLoginDao().getLogin(), LoginResponseBody::getRole);
     }
 
+    public LiveData<Long> getUserId() {
+        return Transformations.map(database.getLoginDao().getLogin(), LoginResponseBody::getId);
+    }
+
     public ResponseLiveData<LoginResponseBody> getLoginResponse(@Nullable LoginForm loginForm) {
         ResponseLiveData<LoginResponseBody> data = new ResponseLiveData<>(() -> database.getLoginDao().getLogin());
         if (loginForm != null) {
@@ -80,6 +85,17 @@ public class UserRepository {
         }
         return data;
     }
+
+    public ResponseLiveData<User> getUser(long id, boolean isFetchNeeded) {
+        ResponseLiveData<User> data = new ResponseLiveData<>(() -> database.getLoginDao().getUserById(id));
+        if (isFetchNeeded) {
+            Loader<User> loader = body -> database.getLoginDao().insert(body);
+            getToken().observeForever(s -> loader.load(userApi.getUser(s, id), data));
+        }
+        return data;
+    }
+
+
 
     /**
      * Result will return to isLoggedIn method

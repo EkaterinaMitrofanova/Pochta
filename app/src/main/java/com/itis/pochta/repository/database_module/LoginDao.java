@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 
 import com.itis.pochta.model.base.Acceptor;
 import com.itis.pochta.model.base.Driver;
+import com.itis.pochta.model.base.User;
 import com.itis.pochta.model.response.LoginResponseBody;
 
 @Dao
@@ -32,4 +33,10 @@ public interface LoginDao {
 
     @Query("SELECT * FROM driver WHERE id=:id LIMIT 1")
     LiveData<Driver> getDriverById(long id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(User... users);
+
+    @Query("SELECT * FROM user WHERE id = :id LIMIT 1")
+    LiveData<User> getUserById(long id);
 }

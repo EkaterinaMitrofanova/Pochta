@@ -2,6 +2,7 @@ package com.itis.pochta.repository.net_module;
 
 import com.itis.pochta.model.base.Acceptor;
 import com.itis.pochta.model.base.Driver;
+import com.itis.pochta.model.base.User;
 import com.itis.pochta.model.request.LoginForm;
 import com.itis.pochta.model.response.BaseResponse;
 import com.itis.pochta.model.response.LoginResponseBody;
@@ -19,12 +20,13 @@ public interface UserApi {
     Observable<BaseResponse<LoginResponseBody>> login(@Body LoginForm loginForm);
 
     @GET("/user/acceptor_info/{id}")
-        //14
     Observable<BaseResponse<Acceptor>> getAcceptor(
             @Header("token") String token, @Path("id") long id);
 
     @GET("/user/driver_info/{id}")
-        //14
     Observable<BaseResponse<Driver>> getDriver(
             @Header("token") String token, @Path("id") long id);
+
+    @GET("/user/{id}")
+    Observable<BaseResponse<User>> getUser(@Header("token") String token, @Path("id") long id);
 }
