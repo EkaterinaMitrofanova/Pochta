@@ -24,4 +24,8 @@ public class ProfileFragmentViewModel extends ViewModel {
         }
         return userResponseLiveData;
     }
+
+    public void setNotLoaded() {
+        userResponseLiveData = null;
+    }
 }

@@ -10,6 +10,7 @@ import com.itis.pochta.view.activity.MainActivity;
 import com.itis.pochta.view.fragment.PackageFragment;
 import com.itis.pochta.view.fragment.ProfileFragment;
 import com.itis.pochta.view.fragment.TrackingFragment;
+import com.itis.pochta.view.view_models.PackageFragmentViewModel;
 import com.itis.pochta.view.view_models.ProfileFragmentViewModel;
 
 import javax.inject.Singleton;
@@ -35,4 +36,6 @@ public interface ModelsComponent {
     void inject(TrackingFragment trackingFragment);
 
     void inject(ProfileFragmentViewModel profileFragmentViewModel);
+
+    void inject(PackageFragmentViewModel packageFragmentViewModel);
 }

@@ -17,8 +17,6 @@ import com.itis.pochta.repository.utils.ResponseLiveData;
 
 import javax.inject.Inject;
 
-import io.reactivex.schedulers.Schedulers;
-
 public class UserRepository {
     @Inject
     PostDatabase database;
@@ -44,16 +42,16 @@ public class UserRepository {
      * Returns token if exists
      * Null if empty
      */
-    LiveData<String> getToken() {
-        return Transformations.map(database.getLoginDao().getLogin(), LoginResponseBody::getToken);
+    String getToken() {
+        return database.getLoginDao().getLoginNotAsync().getToken();
     }
 
-    public LiveData<String> getRole() {
-        return Transformations.map(database.getLoginDao().getLogin(), LoginResponseBody::getRole);
+    public String getRole() {
+        return database.getLoginDao().getLoginNotAsync().getRole();
     }
 
-    public LiveData<Long> getUserId() {
-        return Transformations.map(database.getLoginDao().getLogin(), LoginResponseBody::getId);
+    public Long getUserId() {
+        return database.getLoginDao().getLoginNotAsync().getId();
     }
 
     public ResponseLiveData<LoginResponseBody> getLoginResponse(@Nullable LoginForm loginForm) {
@@ -72,7 +70,7 @@ public class UserRepository {
         ResponseLiveData<Acceptor> data = new ResponseLiveData<>(() -> database.getLoginDao().getAcceptorById(id));
         if (isFetchNeeded) {
             Loader<Acceptor> loader = body -> database.getLoginDao().insert(body);
-            getToken().observeForever(s -> loader.load(userApi.getAcceptor(s, id), data));
+            loader.load(userApi.getAcceptor(getToken(), id), data);
         }
         return data;
     }
@@ -81,7 +79,7 @@ public class UserRepository {
         ResponseLiveData<Driver> data = new ResponseLiveData<>(() -> database.getLoginDao().getDriverById(id));
         if (isFetchNeeded) {
             Loader<Driver> loader = body -> database.getLoginDao().insert(body);
-            getToken().observeForever(s -> loader.load(userApi.getDriver(s, id), data));
+            loader.load(userApi.getDriver(getToken(), id), data);
         }
         return data;
     }
@@ -90,21 +88,17 @@ public class UserRepository {
         ResponseLiveData<User> data = new ResponseLiveData<>(() -> database.getLoginDao().getUserById(id));
         if (isFetchNeeded) {
             Loader<User> loader = body -> database.getLoginDao().insert(body);
-            getToken().observeForever(s -> loader.load(userApi.getUser(s, id), data));
+            loader.load(userApi.getUser(getToken(), id), data);
         }
         return data;
     }
-
-
 
     /**
      * Result will return to isLoggedIn method
      */
     @SuppressLint("CheckResult")
     public void logOut() {
-        io.reactivex.Observable.just(true)
-                .subscribeOn(Schedulers.computation())
-                .subscribe(aBoolean -> database.getLoginDao().clearAll());
+        database.getLoginDao().clearAll();
     }
 
 }

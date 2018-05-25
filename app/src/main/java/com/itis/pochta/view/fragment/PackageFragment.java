@@ -1,6 +1,7 @@
 package com.itis.pochta.view.fragment;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import com.itis.pochta.util.CityAdapter;
 import com.itis.pochta.util.StorageAdapter;
 import com.itis.pochta.view.ViewListener;
 import com.itis.pochta.view.activity.MapActivity;
-import com.itis.pochta.view.listener.AutoCompleteListener;
+import com.itis.pochta.view.view_models.PackageFragmentViewModel;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
     private FragmentPackageBinding binding;
     private ViewListener viewListener;
     private PackageForm packageForm;
+    private PackageFragmentViewModel viewModel;
 
     @Inject
     PackageRepository repository;
@@ -51,7 +53,9 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
         viewListener.setFragment(getTag());
         viewListener.setTitle(R.string.title_package);
 
-        repository.getCities().observe(
+        viewModel = ViewModelProviders.of(this).get(PackageFragmentViewModel.class);
+
+        viewModel.getCitiesResponse().observe(
                 this,
                 citiesResponse -> setCities(citiesResponse.getCities()),
                 status -> startLoading(status == ResponseLiveData.Status.LOADING),
@@ -68,12 +72,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
 
         packageForm = new PackageForm();
 
-        binding.setClick(new AutoCompleteListener() {
-            @Override
-            public void onViewClick(View view) {
-                ((AutoCompleteTextView)view).showDropDown();
-            }
-        });
+        binding.setClick(view -> ((AutoCompleteTextView) view).showDropDown());
 
         binding.city.setOnItemClickListener((parent, view, position, id) -> {
             binding.storage.setText("");
@@ -120,7 +119,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
                 if (isFormValid()) {
                     repository.issuePackage(packageForm).observe(
                             this,
-                            packageResponse -> Toast.makeText(getContext(), "Succesfully created: " + packageResponse.getTicket(), Toast.LENGTH_SHORT).show(),
+                            packageResponse -> Toast.makeText(getContext(), "Successfully created: " + packageResponse.getTicket(), Toast.LENGTH_SHORT).show(),
                             status -> startLoading(status == ResponseLiveData.Status.LOADING),
                             throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
                     );

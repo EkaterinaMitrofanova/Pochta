@@ -10,6 +10,7 @@ public class CitiesResponse {
     @SerializedName("cities")
     private List<City> cities;
 
+
     public CitiesResponse(List<City> cities) {
         this.cities = cities;
     }

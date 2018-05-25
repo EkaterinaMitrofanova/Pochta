@@ -27,6 +27,7 @@ public class DatabaseModule {
                 PostDatabase.class,
                 DATABASE_NAME
         )
+                .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build();
     }

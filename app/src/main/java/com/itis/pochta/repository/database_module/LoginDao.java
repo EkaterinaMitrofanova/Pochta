@@ -19,6 +19,9 @@ public interface LoginDao {
     @Query("SELECT * FROM login LIMIT 1")
     LiveData<LoginResponseBody> getLogin();
 
+    @Query("SELECT * FROM login LIMIT 1")
+    LoginResponseBody getLoginNotAsync();
+
     @Query("DELETE FROM login")
     void clearAll();
 

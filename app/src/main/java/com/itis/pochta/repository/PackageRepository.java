@@ -46,9 +46,7 @@ public class PackageRepository {
     public ResponseLiveData<PackageResponse> issuePackage(PackageForm packageForm) {
         ResponseLiveData<PackageResponse> data = new ResponseLiveData<>();
         Loader<PackageResponse> loader = data::postBody;
-        userRepository.getToken().observeForever(s -> {
-            loader.load(packageApi.issuePackage(s, packageForm), data);
-        });
+        loader.load(packageApi.issuePackage(userRepository.getToken(), packageForm), data);
         return data;
     }
 

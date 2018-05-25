@@ -35,14 +35,13 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     private DialogGenerator dialogGenerator;
 
     private ActivityMainBinding binding;
-    private boolean isBottomFilled = false;
 
     @Inject
     UserRepository repository;
 
     public static void start(Context context, boolean clearTop) {
         Intent starter = new Intent(context, MainActivity.class);
-        if (clearTop){
+        if (clearTop) {
             starter.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(starter);
@@ -57,39 +56,36 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
 
         initViews();
 
-        repository.getRole().observe(this, this::fillBottomNavigation);
+        fillBottomNavigation(repository.getRole());
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             currentFragment = savedInstanceState.getString(KEY_CURRENT_FRAGMENT);
         }
     }
 
-    private void initViews(){
+    private void initViews() {
         setSupportActionBar(binding.toolbarLayout.toolbar);
         getSupportActionBar().setTitle(R.string.title);
 
         dialogGenerator = new DialogGenerator(this);
     }
 
-    private void fillBottomNavigation(String role){
-        if (!isBottomFilled) {
-            if (role.equals("ACCEPTOR")) {
-                binding.bottomNavigation.inflateMenu(R.menu.menu_acceptor);
-            } else {
-                binding.bottomNavigation.inflateMenu(R.menu.menu_driver);
-            }
-            isBottomFilled = true;
+    private void fillBottomNavigation(String role) {
+        if (role.equals("ACCEPTOR")) {
+            binding.bottomNavigation.inflateMenu(R.menu.menu_acceptor);
+        } else {
+            binding.bottomNavigation.inflateMenu(R.menu.menu_driver);
         }
-        if (currentFragment == null){
+        if (currentFragment == null) {
             startProfile();
         }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_tracking: {
                 startTracking();
                 return true;
@@ -109,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     private void startTracking() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         TrackingFragment fragment = (TrackingFragment) getSupportFragmentManager().findFragmentByTag(TAG_TRACKING);
-        if (fragment != null){
-            if (currentFragment.equals(TAG_TRACKING)){
+        if (fragment != null) {
+            if (currentFragment.equals(TAG_TRACKING)) {
                 return;
             }
         } else {
@@ -120,11 +116,11 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
         transaction.commit();
     }
 
-    private void startPackage(){
+    private void startPackage() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         PackageFragment fragment = (PackageFragment) getSupportFragmentManager().findFragmentByTag(TAG_CREATE_ORDER);
-        if (fragment != null){
-            if (currentFragment.equals(TAG_CREATE_ORDER)){
+        if (fragment != null) {
+            if (currentFragment.equals(TAG_CREATE_ORDER)) {
                 return;
             }
         } else {
@@ -134,11 +130,11 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
         transaction.commit();
     }
 
-    private void startProfile(){
+    private void startProfile() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_PROFILE);
-        if (fragment != null){
-            if (currentFragment.equals(TAG_PROFILE)){
+        if (fragment != null) {
+            if (currentFragment.equals(TAG_PROFILE)) {
                 return;
             }
         } else {
@@ -160,16 +156,16 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     }
 
     @Override
-    public void startLoading(boolean start){
-        if (start){
+    public void startLoading(boolean start) {
+        if (start) {
             dialogGenerator.showProgressDialog();
         } else {
             dialogGenerator.hideProgressDialog();
         }
     }
 
-    private void setToolbarViews(){
-        switch (currentFragment){
+    private void setToolbarViews() {
+        switch (currentFragment) {
             case TAG_CREATE_ORDER: {
                 binding.bottomNavigation.setSelectedItemId(R.id.nav_create_order);
                 break;
@@ -187,13 +183,13 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
 
     @Override
     public void onBackPressed() {
-        if (dialogGenerator.isProgressShowing()){
+        if (dialogGenerator.isProgressShowing()) {
             dialogGenerator.hideProgressDialog();
             super.onBackPressed();
         }
         int count = getFragmentManager().getBackStackEntryCount();
         System.out.println("-----onBackPressed()------ COUNT = " + count);
-        if (count == 1){
+        if (count == 1) {
             dialogGenerator.showExitDialog();
             return;
         }
