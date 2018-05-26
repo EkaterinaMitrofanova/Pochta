@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     }
 
     private void setToolbarViews() {
+        binding.toolbarLayout.toolbarRightView.setText("");
         switch (currentFragment) {
             case TAG_CREATE_ORDER: {
                 binding.bottomNavigation.setSelectedItemId(R.id.nav_create_order);
