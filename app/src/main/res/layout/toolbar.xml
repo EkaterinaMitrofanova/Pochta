@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolbar_right_view"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/colorTextWhite"
+            android:textColor="@color/colorTextDark"
             android:layout_centerVertical="true"
             android:textSize="17sp"/>
 

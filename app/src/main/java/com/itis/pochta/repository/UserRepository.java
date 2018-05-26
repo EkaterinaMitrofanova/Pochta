@@ -67,7 +67,7 @@ public class UserRepository {
     }
 
     public ResponseLiveData<Acceptor> getAcceptorUser(long id, boolean isFetchNeeded) {
-        ResponseLiveData<Acceptor> data = new ResponseLiveData<>(() -> database.getLoginDao().getAcceptorById(id));
+        ResponseLiveData<Acceptor> data = new ResponseLiveData<>(() -> database.getLoginDao().getAcceptor());
         if (isFetchNeeded) {
             Loader<Acceptor> loader = body -> database.getLoginDao().insert(body);
             loader.load(userApi.getAcceptor(getToken(), id), data);

@@ -23,8 +23,8 @@ import com.itis.pochta.repository.PackageRepository;
 import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.util.CityAdapter;
 import com.itis.pochta.util.StorageAdapter;
-import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.activity.MapActivity;
+import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.view_models.PackageFragmentViewModel;
 
 import java.util.List;
@@ -78,7 +78,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
             binding.storage.setText("");
             binding.storage.clearListSelection();
             long cityId = ((City) binding.city.getAdapter().getItem(position)).getId();
-            repository.getStorages(String.valueOf(cityId), null).observe(
+            repository.getStorages(cityId, null).observe(
                     this,
                     storagesResponse -> setStorages(storagesResponse.getMyStorages()),
                     status -> startLoading(status == ResponseLiveData.Status.LOADING),

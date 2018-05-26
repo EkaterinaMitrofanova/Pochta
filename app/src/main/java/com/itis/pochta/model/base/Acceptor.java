@@ -1,11 +1,15 @@
 package com.itis.pochta.model.base;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
 @Entity
-public class Acceptor extends User{
+public class Acceptor {
+
+    @PrimaryKey
+    private long id = 1;
 
     @SerializedName("storage")
     private long storage;
@@ -15,6 +19,13 @@ public class Acceptor extends User{
     }
 
     public Acceptor() {
+    }
+
+    public long getId() {
+        return 1;
+    }
+
+    public void setId(long id) {
     }
 
     public long getStorage() {

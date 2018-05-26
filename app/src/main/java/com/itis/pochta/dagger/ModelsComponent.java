@@ -14,6 +14,7 @@ import com.itis.pochta.view.fragment.StoragesFragment;
 import com.itis.pochta.view.fragment.TrackingFragment;
 import com.itis.pochta.view.view_models.PackageFragmentViewModel;
 import com.itis.pochta.view.view_models.ProfileFragmentViewModel;
+import com.itis.pochta.view.view_models.TrackingFragmentViewModel;
 
 import javax.inject.Singleton;
 
@@ -44,4 +45,6 @@ public interface ModelsComponent {
     void inject(OrdersFragment ordersFragment);
 
     void inject(StoragesFragment storagesFragment);
+
+    void inject(TrackingFragmentViewModel trackingFragmentViewModel);
 }

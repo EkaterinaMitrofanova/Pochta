@@ -26,10 +26,10 @@ public interface LoginDao {
     void clearAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Acceptor... acceptors);
+    void insert(Acceptor acceptors);
 
-    @Query("SELECT * FROM acceptor WHERE id=:id LIMIT 1")
-    LiveData<Acceptor> getAcceptorById(long id);
+    @Query("SELECT * FROM acceptor LIMIT 1")
+    LiveData<Acceptor> getAcceptor();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Driver... acceptors);

@@ -9,11 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.itis.pochta.databinding.ListItemOrderBinding;
-import com.itis.pochta.databinding.ListItemPackageBinding;
-import com.itis.pochta.databinding.ListItemStorageBinding;
 import com.itis.pochta.model.base.Order;
-import com.itis.pochta.model.request.PickUpForm;
-import com.itis.pochta.view.listener.ListItemListener;
 import com.itis.pochta.view.listener.PickUpListener;
 
 import java.util.List;

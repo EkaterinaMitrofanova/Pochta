@@ -1,6 +1,5 @@
 package com.itis.pochta.repository.net_module;
 
-import com.itis.pochta.model.base.City;
 import com.itis.pochta.model.base.MyPackage;
 import com.itis.pochta.model.request.PackageForm;
 import com.itis.pochta.model.request.PickUpForm;
@@ -11,14 +10,11 @@ import com.itis.pochta.model.response.PackageResponse;
 import com.itis.pochta.model.response.PackagesListResponse;
 import com.itis.pochta.model.response.StoragesResponse;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface PackageApi {
@@ -28,7 +24,7 @@ public interface PackageApi {
 
     @GET("/storage?type=0")
     Observable<BaseResponse<StoragesResponse>> getStorages(
-            @Query("city_id") String country, @Query("city") String city);
+            @Query("city_id") long country, @Query("city") String city);
 
     @GET("/storage?type=2")
     Observable<BaseResponse<StoragesResponse>> getStoragesForDriver(
@@ -49,8 +45,11 @@ public interface PackageApi {
     Observable<BaseResponse<OrdersResponse>> getOrders(
             @Header("token") String token, @Query("storage") long storageId);
 
-    @POST("/package/pick_up")
-    Observable<BaseResponse> pickUp(
-            @Header("token") String token, @Body PickUpForm pickUpForm);
+    @POST("package/pick_up")
+    Observable<BaseResponse<Void>> pickUp(
+            @Header("token") String token, @Body PickUpForm pickUpForm, @Query("storage") long storage);
+
+    @POST("/package/accept")
+    Observable<BaseResponse<Void>> acceptPackage(@Header("token") String token, @Query("ticket") String ticket);
 
 }

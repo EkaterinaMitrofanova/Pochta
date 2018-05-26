@@ -11,21 +11,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.itis.pochta.App;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.ActivityMainBinding;
-import com.itis.pochta.model.base.MyPackage;
 import com.itis.pochta.model.base.Order;
 import com.itis.pochta.repository.UserRepository;
 import com.itis.pochta.util.DialogGenerator;
 import com.itis.pochta.view.fragment.OrdersFragment;
-import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.fragment.PackageFragment;
 import com.itis.pochta.view.fragment.ProfileFragment;
 import com.itis.pochta.view.fragment.StoragesFragment;
 import com.itis.pochta.view.fragment.TrackingFragment;
+import com.itis.pochta.view.listener.ViewListener;
 
 import java.util.List;
 
@@ -204,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     }
 
     @Override
-    public void startOrders(List<Order> orders) {
+    public void startOrders(List<Order> orders, long storage) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         OrdersFragment fragment = (OrdersFragment) getSupportFragmentManager().findFragmentByTag(TAG_ORDERS);
         if (fragment != null) {
@@ -216,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
         }
         transaction.replace(R.id.fragment_container, fragment, TAG_ORDERS);
         transaction.commit();
-        fragment.setOrders(orders);
+        fragment.setOrders(orders, storage);
 
     }
 
@@ -224,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     public void remove(String tag) {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
         getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        startStorages();
         if (tag.equals(TAG_ORDERS)){
         }
     }

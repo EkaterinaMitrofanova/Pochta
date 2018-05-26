@@ -3,8 +3,11 @@ package com.itis.pochta.repository;
 import com.itis.pochta.App;
 import com.itis.pochta.model.base.MyPackage;
 import com.itis.pochta.model.request.PackageForm;
+import com.itis.pochta.model.request.PickUpForm;
 import com.itis.pochta.model.response.CitiesResponse;
+import com.itis.pochta.model.response.OrdersResponse;
 import com.itis.pochta.model.response.PackageResponse;
+import com.itis.pochta.model.response.PackagesListResponse;
 import com.itis.pochta.model.response.StoragesResponse;
 import com.itis.pochta.repository.net_module.PackageApi;
 import com.itis.pochta.repository.utils.ResponseLiveData;
@@ -36,7 +39,7 @@ public class PackageRepository {
         return data;
     }
 
-    public ResponseLiveData<StoragesResponse> getStorages(String cityId, String city) {
+    public ResponseLiveData<StoragesResponse> getStorages(long cityId, String city) {
         ResponseLiveData<StoragesResponse> data = new ResponseLiveData<>();
         Loader<StoragesResponse> loader = data::postBody;
         loader.load(packageApi.getStorages(cityId, city), data);
@@ -48,6 +51,35 @@ public class PackageRepository {
         Loader<PackageResponse> loader = data::postBody;
         loader.load(packageApi.issuePackage(userRepository.getToken(), packageForm), data);
         return data;
+    }
+
+    public ResponseLiveData<Void> acceptPackage(String ticket) {
+        ResponseLiveData<Void> data = new ResponseLiveData<>();
+        Loader<Void> loader = data::postBody;
+        loader.load(packageApi.acceptPackage(userRepository.getToken(), ticket), data);
+        return data;
+    }
+
+    public ResponseLiveData<PackagesListResponse> getPackagesByPhoneAndId(String phone, long storageId) {
+        ResponseLiveData<PackagesListResponse> data = new ResponseLiveData<>();
+        Loader<PackagesListResponse> loader = data::postBody;
+        loader.load(packageApi.getPackagesByPhone(phone, storageId), data);
+        return data;
+    }
+
+    public ResponseLiveData<Void> pickUp(PickUpForm form, long storage) {
+        ResponseLiveData<Void> data = new ResponseLiveData<>();
+        Loader<Void> loader = data::postBody;
+        loader.load(packageApi.pickUp(userRepository.getToken(), form, storage), data);
+        return data;
+    }
+
+    public ResponseLiveData<OrdersResponse> getOrders(long storageId) {
+        ResponseLiveData<OrdersResponse> data = new ResponseLiveData<>();
+        Loader<OrdersResponse> loader = data::postBody;
+        loader.load(packageApi.getOrders(userRepository.getToken(), storageId), data);
+        return data;
+
     }
 
 }

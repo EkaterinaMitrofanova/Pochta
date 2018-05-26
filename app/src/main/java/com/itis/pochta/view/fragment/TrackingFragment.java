@@ -1,5 +1,6 @@
 package com.itis.pochta.view.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,17 +9,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.itis.pochta.App;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.FragmentTrackingBinding;
 import com.itis.pochta.model.base.MyPackage;
 import com.itis.pochta.repository.PackageRepository;
+import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.view.BaseView;
-import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.adapter.PackageRvAdapter;
 import com.itis.pochta.view.listener.ListItemListener;
+import com.itis.pochta.view.listener.ViewListener;
+import com.itis.pochta.view.view_models.TrackingFragmentViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,6 +34,8 @@ public class TrackingFragment extends Fragment implements BaseView<List<MyPackag
     private FragmentTrackingBinding binding;
     private ViewListener viewListener;
     private int mPosition;
+    private long storageId;
+    private TrackingFragmentViewModel viewModel;
 
     @Inject
     PackageRepository repository;
@@ -43,12 +50,24 @@ public class TrackingFragment extends Fragment implements BaseView<List<MyPackag
         viewListener.setFragment(getTag());
         viewListener.setTitle(R.string.title_tracking);
 
+        viewModel = ViewModelProviders.of(this).get(TrackingFragmentViewModel.class);
+
         initViews();
+
+        viewModel.getAcceptor().observe(
+                this,
+                acceptor -> storageId = acceptor.getStorage(),
+                status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                throwable -> {
+                    viewModel.setNotLoaded();
+                    Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+        );
 
         return binding.getRoot();
     }
 
-    private void initViews(){
+    private void initViews() {
 
         binding.rv.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -56,13 +75,26 @@ public class TrackingFragment extends Fragment implements BaseView<List<MyPackag
 
         binding.search.setOnClickListener(v -> {
             String phone = binding.searchPhone.getText().toString();
-            //todo: Список посылок по номеру. Перед этим сделать запрос на профиль acceptor-а для получения id пункта
-//            repository.getMyPackage(ticket).observe(
-//                    this,
-//                    this::fillViews,
-//                    status -> startLoading(status == ResponseLiveData.Status.LOADING),
-//                    throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
-//            );
+            repository.getPackagesByPhoneAndId(phone, storageId).observe(
+                    this,
+                    packagesListResponse -> {
+                        List<MyPackage> myPackages = new ArrayList<>();
+                        for (String s : packagesListResponse.getPackages()) {
+                            repository.getMyPackage(s).observe(
+                                    this,
+                                    myPackage -> {
+                                        myPackages.add(myPackage);
+                                        binding.rv.getAdapter().notifyDataSetChanged();
+                                    },
+                                    status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                                    throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+                            );
+                        }
+                        fillViews(myPackages);
+                    },
+                    status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                    throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+            );
         });
     }
 
@@ -72,17 +104,22 @@ public class TrackingFragment extends Fragment implements BaseView<List<MyPackag
     }
 
     @Override
-    public void fillViews(List<MyPackage> myPackages){
-        ((PackageRvAdapter)binding.rv.getAdapter()).setPackages(myPackages);
+    public void fillViews(List<MyPackage> myPackages) {
+        ((PackageRvAdapter) binding.rv.getAdapter()).setPackages(myPackages);
     }
 
-    private void onAcceptSuccess(){
-        ((PackageRvAdapter)binding.rv.getAdapter()).update(mPosition);
+    private void onAcceptSuccess() {
+        ((PackageRvAdapter) binding.rv.getAdapter()).update(mPosition);
     }
 
     @Override
     public void onItemClick(String ticket, int position) {
         mPosition = position;
-        //todo: Подтверждение выдачи [21]. Когда запрос пройдёт успешно, вызвать метод onAcceptSuccess()
+        repository.acceptPackage(ticket).observe(
+                this,
+                aVoid -> onAcceptSuccess(),
+                status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+        );
     }
 }
