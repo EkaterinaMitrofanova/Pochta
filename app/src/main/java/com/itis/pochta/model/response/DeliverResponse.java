@@ -5,19 +5,28 @@ import com.itis.pochta.model.base.Order;
 
 import java.util.List;
 
-public class OrdersResponse {
+public class DeliverResponse {
 
     @SerializedName("status")
-    private int status;
+    private String status;
 
     @SerializedName("packages")
     private List<Order> orders;
 
-    public OrdersResponse() {
+    public DeliverResponse() {
     }
 
-    public OrdersResponse(List<Order> orders) {
+    public DeliverResponse(String status, List<Order> orders) {
+        this.status = status;
         this.orders = orders;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public List<Order> getOrders() {

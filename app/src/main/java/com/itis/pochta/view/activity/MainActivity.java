@@ -18,6 +18,7 @@ import com.itis.pochta.databinding.ActivityMainBinding;
 import com.itis.pochta.model.base.Order;
 import com.itis.pochta.repository.UserRepository;
 import com.itis.pochta.util.DialogGenerator;
+import com.itis.pochta.view.fragment.DeliverPackagesFragment;
 import com.itis.pochta.view.fragment.OrdersFragment;
 import com.itis.pochta.view.fragment.PackageFragment;
 import com.itis.pochta.view.fragment.ProfileFragment;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     public static final String TAG_TRACKING = "com.itis.pochta.view.fragment.tracking";
     public static final String TAG_STORAGES = "com.itis.pochta.view.fragment.storages";
     public static final String TAG_ORDERS = "com.itis.pochta.view.fragment.orders";
+    public static final String TAG_DELIVER_STORAGES = "com.itis.pochta.view.fragment.deliver_stor";
 
     private static final String KEY_CURRENT_FRAGMENT = "com.itis.pochta.view.curr_fragment";
     private String currentFragment = null;
@@ -121,8 +123,28 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
                 startStorages();
                 return true;
             }
+            case R.id.nav_packages: {
+                startDriverPackages();
+                return true;
+            }
         }
         return false;
+    }
+
+    private void startDriverPackages() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        DeliverPackagesFragment fragment = (DeliverPackagesFragment)
+                getSupportFragmentManager().findFragmentByTag(TAG_DELIVER_STORAGES);
+        if (fragment != null) {
+            if (currentFragment.equals(TAG_TRACKING)) {
+                return;
+            }
+        } else {
+            fragment = new DeliverPackagesFragment();
+        }
+        transaction.replace(R.id.fragment_container, fragment, TAG_DELIVER_STORAGES).addToBackStack(TAG_DELIVER_STORAGES);
+        transaction.commit();
+
     }
 
     private void startTracking() {
@@ -250,6 +272,11 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
                 binding.toolbarLayout.toolbarRightView.setText("Готово");
                 break;
             }
+            case TAG_DELIVER_STORAGES: {
+                binding.toolbarLayout.toolbarRightView.setText("Готово");
+                break;
+            }
+
         }
     }
 

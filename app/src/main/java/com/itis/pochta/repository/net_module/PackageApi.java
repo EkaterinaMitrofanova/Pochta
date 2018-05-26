@@ -1,10 +1,12 @@
 package com.itis.pochta.repository.net_module;
 
 import com.itis.pochta.model.base.MyPackage;
+import com.itis.pochta.model.request.DeliverForm;
 import com.itis.pochta.model.request.PackageForm;
 import com.itis.pochta.model.request.PickUpForm;
 import com.itis.pochta.model.response.BaseResponse;
 import com.itis.pochta.model.response.CitiesResponse;
+import com.itis.pochta.model.response.DeliverResponse;
 import com.itis.pochta.model.response.OrdersResponse;
 import com.itis.pochta.model.response.PackageResponse;
 import com.itis.pochta.model.response.PackagesListResponse;
@@ -51,5 +53,11 @@ public interface PackageApi {
 
     @POST("/package/accept")
     Observable<BaseResponse<Void>> acceptPackage(@Header("token") String token, @Query("ticket") String ticket);
+
+    @GET("/package/driver")
+    Observable<BaseResponse<OrdersResponse>> getDriverOrders(@Header("token") String token);
+
+    @POST("package/deliver")
+    Observable<BaseResponse<DeliverResponse>> deliver(@Header("token") String token, @Body DeliverForm deliverForm);
 
 }

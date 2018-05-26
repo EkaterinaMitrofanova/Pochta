@@ -44,7 +44,7 @@ public class OrdersFragment extends Fragment implements PickUpListener {
 
         viewListener = (ViewListener) getActivity();
         viewListener.setFragment(getTag());
-        viewListener.setTitle(R.string.title_orders);
+        viewListener.setTitle(R.string.title_orders_choice);
 
         initViews();
         return binding.getRoot();
