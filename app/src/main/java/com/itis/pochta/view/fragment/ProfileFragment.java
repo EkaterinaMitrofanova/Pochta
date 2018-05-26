@@ -18,7 +18,7 @@ import com.itis.pochta.model.base.User;
 import com.itis.pochta.repository.UserRepository;
 import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.view.BaseView;
-import com.itis.pochta.view.ViewListener;
+import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.activity.LoginActivity;
 import com.itis.pochta.view.view_models.ProfileFragmentViewModel;
 

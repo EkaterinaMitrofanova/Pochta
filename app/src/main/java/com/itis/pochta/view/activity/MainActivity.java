@@ -6,19 +6,28 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.itis.pochta.App;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.ActivityMainBinding;
+import com.itis.pochta.model.base.MyPackage;
+import com.itis.pochta.model.base.Order;
 import com.itis.pochta.repository.UserRepository;
 import com.itis.pochta.util.DialogGenerator;
-import com.itis.pochta.view.ViewListener;
+import com.itis.pochta.view.fragment.OrdersFragment;
+import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.fragment.PackageFragment;
 import com.itis.pochta.view.fragment.ProfileFragment;
+import com.itis.pochta.view.fragment.StoragesFragment;
 import com.itis.pochta.view.fragment.TrackingFragment;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
     public static final String TAG_CREATE_ORDER = "com.itis.pochta.view.fragment.create_order";
     public static final String TAG_PROFILE = "com.itis.pochta.view.fragment.profile";
     public static final String TAG_TRACKING = "com.itis.pochta.view.fragment.tracking";
+    public static final String TAG_STORAGES = "com.itis.pochta.view.fragment.storages";
+    public static final String TAG_ORDERS = "com.itis.pochta.view.fragment.orders";
 
     private static final String KEY_CURRENT_FRAGMENT = "com.itis.pochta.view.curr_fragment";
     private String currentFragment = null;
@@ -70,6 +81,16 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
         getSupportActionBar().setTitle(R.string.title);
 
         dialogGenerator = new DialogGenerator(this);
+
+        binding.toolbarLayout.toolbarRightView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentFragment.equals(TAG_ORDERS)){
+                    OrdersFragment fragment = (OrdersFragment) getSupportFragmentManager().findFragmentByTag(TAG_ORDERS);
+                    fragment.pickUp();
+                }
+            }
+        });
     }
 
     private void fillBottomNavigation(String role) {
@@ -96,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
             }
             case R.id.nav_create_order: {
                 startPackage();
+                return true;
+            }
+            case R.id.nav_orders: {
+                startStorages();
                 return true;
             }
         }
@@ -144,6 +169,20 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
         transaction.commit();
     }
 
+    private void startStorages() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        StoragesFragment fragment = (StoragesFragment) getSupportFragmentManager().findFragmentByTag(TAG_STORAGES);
+        if (fragment != null) {
+            if (currentFragment.equals(TAG_STORAGES)) {
+                return;
+            }
+        } else {
+            fragment = new StoragesFragment();
+        }
+        transaction.replace(R.id.fragment_container, fragment, TAG_STORAGES).addToBackStack(TAG_STORAGES);
+        transaction.commit();
+    }
+
     @Override
     public void setFragment(String tag) {
         currentFragment = tag;
@@ -164,6 +203,31 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
         }
     }
 
+    @Override
+    public void startOrders(List<Order> orders) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        OrdersFragment fragment = (OrdersFragment) getSupportFragmentManager().findFragmentByTag(TAG_ORDERS);
+        if (fragment != null) {
+            if (currentFragment.equals(TAG_ORDERS)) {
+                return;
+            }
+        } else {
+            fragment = new OrdersFragment();
+        }
+        transaction.replace(R.id.fragment_container, fragment, TAG_ORDERS);
+        transaction.commit();
+        fragment.setOrders(orders);
+
+    }
+
+    @Override
+    public void remove(String tag) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        if (tag.equals(TAG_ORDERS)){
+        }
+    }
+
     private void setToolbarViews() {
         switch (currentFragment) {
             case TAG_CREATE_ORDER: {
@@ -176,6 +240,14 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
             }
             case TAG_TRACKING: {
                 binding.bottomNavigation.setSelectedItemId(R.id.nav_tracking);
+                break;
+            }
+            case TAG_STORAGES: {
+                binding.bottomNavigation.setSelectedItemId(R.id.nav_orders);
+                break;
+            }
+            case TAG_ORDERS:{
+                binding.toolbarLayout.toolbarRightView.setText("Готово");
                 break;
             }
         }

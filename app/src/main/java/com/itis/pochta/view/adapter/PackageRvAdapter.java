@@ -11,7 +11,7 @@ import com.itis.pochta.R;
 import com.itis.pochta.databinding.ListItemPackageBinding;
 import com.itis.pochta.model.base.MyPackage;
 import com.itis.pochta.view.listener.PackageClickHandler;
-import com.itis.pochta.view.listener.PackageListener;
+import com.itis.pochta.view.listener.ListItemListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,9 +20,9 @@ import java.util.List;
 public class PackageRvAdapter extends RecyclerView.Adapter<PackageRvAdapter.PackageHolder>{
 
     private List<MyPackage> packages;
-    private PackageListener listener;
+    private ListItemListener<String> listener;
 
-    public PackageRvAdapter(List<MyPackage> packages, PackageListener listener) {
+    public PackageRvAdapter(List<MyPackage> packages, ListItemListener<String> listener) {
         this.listener = listener;
         this.packages = packages;
     }

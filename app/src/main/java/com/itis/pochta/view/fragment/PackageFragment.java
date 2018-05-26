@@ -23,7 +23,7 @@ import com.itis.pochta.repository.PackageRepository;
 import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.util.CityAdapter;
 import com.itis.pochta.util.StorageAdapter;
-import com.itis.pochta.view.ViewListener;
+import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.activity.MapActivity;
 import com.itis.pochta.view.view_models.PackageFragmentViewModel;
 

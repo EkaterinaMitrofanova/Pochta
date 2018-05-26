@@ -19,15 +19,23 @@
             android:textSize="17sp"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar_right_view"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorTextWhite"
+            android:layout_centerVertical="true"
+            android:textSize="17sp"/>
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_toEndOf="@id/toolbar_left_view"
+            android:layout_toStartOf="@id/toolbar_right_view"
             app:titleTextColor="@color/colorTextDark"
             android:theme="@android:style/Widget.Material.ActionBar"
             android:layout_height="?android:actionBarSize"
             />
-
-
 </RelativeLayout>
 </layout>

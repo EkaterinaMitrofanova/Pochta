@@ -15,17 +15,16 @@ import com.itis.pochta.databinding.FragmentTrackingBinding;
 import com.itis.pochta.model.base.MyPackage;
 import com.itis.pochta.repository.PackageRepository;
 import com.itis.pochta.view.BaseView;
-import com.itis.pochta.view.ViewListener;
+import com.itis.pochta.view.listener.ViewListener;
 import com.itis.pochta.view.adapter.PackageRvAdapter;
-import com.itis.pochta.view.listener.PackageListener;
+import com.itis.pochta.view.listener.ListItemListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 
-public class TrackingFragment extends Fragment implements BaseView<List<MyPackage>>, PackageListener{
+public class TrackingFragment extends Fragment implements BaseView<List<MyPackage>>, ListItemListener<String> {
 
     private FragmentTrackingBinding binding;
     private ViewListener viewListener;
