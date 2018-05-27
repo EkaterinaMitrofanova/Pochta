@@ -22,7 +22,7 @@
     <string name="hint_ticket">Номер отслеживания</string>
 
     <string name="action_sign_in">ВОЙТИ</string>
-    <string name="action_on_map">На карте</string>
+    <string name="action_on_map">Выбрать на карте</string>
     <string name="action_checkout">Оформить</string>
     <string name="action_logout">Выйти</string>
     <string name="action_issued">Подтвердить выдачу</string>

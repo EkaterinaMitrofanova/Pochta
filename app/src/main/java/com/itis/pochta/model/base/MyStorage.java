@@ -1,6 +1,8 @@
 package com.itis.pochta.model.base;
 
-public class MyStorage {
+import java.io.Serializable;
+
+public class MyStorage implements Serializable{
 
     private long id;
     private String name;

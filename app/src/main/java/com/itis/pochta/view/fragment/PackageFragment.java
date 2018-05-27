@@ -18,6 +18,7 @@ import com.itis.pochta.R;
 import com.itis.pochta.databinding.FragmentPackageBinding;
 import com.itis.pochta.model.base.City;
 import com.itis.pochta.model.base.MyStorage;
+import com.itis.pochta.model.base.StorageList;
 import com.itis.pochta.model.request.PackageForm;
 import com.itis.pochta.repository.PackageRepository;
 import com.itis.pochta.repository.utils.ResponseLiveData;
@@ -37,6 +38,9 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
     private ViewListener viewListener;
     private PackageForm packageForm;
     private PackageFragmentViewModel viewModel;
+    private List<MyStorage> mStorages;
+
+    private long storageId;
 
     @Inject
     PackageRepository repository;
@@ -73,6 +77,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
         binding.actionChangeStorage.setOnClickListener(this);
         binding.actionPackage.setOnClickListener(this);
 
+
         packageForm = new PackageForm();
 
         binding.setClick(view -> ((AutoCompleteTextView) view).showDropDown());
@@ -90,7 +95,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
         });
 
         binding.storage.setOnItemClickListener((parent, view, position, id) -> {
-            long storageId = ((MyStorage) parent.getAdapter().getItem(position)).getId();
+            storageId = ((MyStorage) parent.getAdapter().getItem(position)).getId();
             packageForm.setDest_id(storageId);
         });
     }
@@ -100,6 +105,7 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
     }
 
     public void setStorages(List<MyStorage> storages){
+        mStorages = storages;
         binding.storage.setAdapter(new StorageAdapter(getActivity(), storages));
 
         if (storages != null) {
@@ -115,7 +121,11 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.action_change_storage: {
-                startActivityForResult(new Intent(getActivity(), MapActivity.class), CODE_MAP);
+
+                if (mStorages == null || mStorages.size() == 0) return;
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putExtra("1", new StorageList(mStorages));
+                startActivityForResult(intent, CODE_MAP);
                 break;
             }
             case R.id.action_package: {
@@ -168,7 +178,8 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
                     Toast.makeText(getActivity(), getString(R.string.error_storage_choice), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                long storageId = data.getLongExtra(MapActivity.KEY_ID, -1);
+                storageId = data.getLongExtra(MapActivity.KEY_ID, -1);
+                packageForm.setDest_id(storageId);
                 String address = data.getStringExtra(MapActivity.KEY_ADDRESS);
                 binding.storage.setText(address);
                 break;

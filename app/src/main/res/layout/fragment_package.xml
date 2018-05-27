@@ -106,7 +106,7 @@
                 android:layout_margin="5dp"
                 android:textSize="18sp"
                 android:textColor="@color/colorAccent"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <Button
                 android:id="@+id/action_package"

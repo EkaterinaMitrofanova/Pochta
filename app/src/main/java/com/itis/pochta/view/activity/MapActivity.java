@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.ActivityMapBinding;
 import com.itis.pochta.model.base.MyStorage;
+import com.itis.pochta.model.base.StorageList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,18 @@ public class MapActivity extends Activity implements
     private ActivityMapBinding binding;
     private GoogleMap mGoogleMap;
 
+    private List<MyStorage> myStorages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_map);
+
+        Intent intent = getIntent();
+        if (intent.getExtras() != null){
+            StorageList s = (StorageList) intent.getSerializableExtra("1");
+            myStorages = s.getStorages();
+        }
 
         MapView mMapView = binding.map;
         mMapView.onCreate(savedInstanceState);
@@ -90,10 +99,13 @@ public class MapActivity extends Activity implements
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.setMinZoomPreference(10);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(55.755826, 37.6172999)));
+        MyStorage storage = myStorages.get(0);
+//        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(55.755826, 37.6172999)));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(storage.getLat(), storage.getLon())));
+        fillMap();
     }
 
-    private void fillMap(List<MyStorage> myStorages){
+    private void fillMap(){
         for (MyStorage myStorage : myStorages) {
             LatLng latLng = new LatLng(myStorage.getLat(), myStorage.getLon());
             mGoogleMap.setOnInfoWindowClickListener(this);
