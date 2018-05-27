@@ -56,7 +56,11 @@ public class TrackingFragment extends Fragment implements BaseView<List<MyPackag
 
         viewModel.getAcceptor().observe(
                 this,
-                acceptor -> storageId = acceptor.getStorage(),
+                acceptor -> {
+                    if (acceptor != null) {
+                        storageId = acceptor.getStorage();
+                    }
+                },
                 status -> startLoading(status == ResponseLiveData.Status.LOADING),
                 throwable -> {
                     viewModel.setNotLoaded();

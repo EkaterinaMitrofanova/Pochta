@@ -88,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements ViewListener,
                 if (currentFragment.equals(TAG_ORDERS)){
                     OrdersFragment fragment = (OrdersFragment) getSupportFragmentManager().findFragmentByTag(TAG_ORDERS);
                     fragment.pickUp();
+                    return;
+                }
+                if (currentFragment.equals(TAG_DELIVER_STORAGES)){
+                    DeliverPackagesFragment fragment =
+                            (DeliverPackagesFragment) getSupportFragmentManager().findFragmentByTag(TAG_DELIVER_STORAGES);
+                        fragment.deliver();
+                        return;
                 }
             }
         });

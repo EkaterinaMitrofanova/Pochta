@@ -2,9 +2,11 @@ package com.itis.pochta.repository;
 
 import com.itis.pochta.App;
 import com.itis.pochta.model.base.MyPackage;
+import com.itis.pochta.model.request.DeliverForm;
 import com.itis.pochta.model.request.PackageForm;
 import com.itis.pochta.model.request.PickUpForm;
 import com.itis.pochta.model.response.CitiesResponse;
+import com.itis.pochta.model.response.DeliverResponse;
 import com.itis.pochta.model.response.OrdersResponse;
 import com.itis.pochta.model.response.PackageResponse;
 import com.itis.pochta.model.response.PackagesListResponse;
@@ -46,6 +48,13 @@ public class PackageRepository {
         return data;
     }
 
+    public ResponseLiveData<StoragesResponse> getStoragesForDriver(long cityId) {
+        ResponseLiveData<StoragesResponse> data = new ResponseLiveData<>();
+        Loader<StoragesResponse> loader = data::postBody;
+        loader.load(packageApi.getStoragesForDriver(cityId), data);
+        return data;
+    }
+
     public ResponseLiveData<PackageResponse> issuePackage(PackageForm packageForm) {
         ResponseLiveData<PackageResponse> data = new ResponseLiveData<>();
         Loader<PackageResponse> loader = data::postBody;
@@ -79,7 +88,20 @@ public class PackageRepository {
         Loader<OrdersResponse> loader = data::postBody;
         loader.load(packageApi.getOrders(userRepository.getToken(), storageId), data);
         return data;
+    }
 
+    public ResponseLiveData<OrdersResponse> getDriverOrders(){
+        ResponseLiveData<OrdersResponse> data = new ResponseLiveData<>();
+        Loader<OrdersResponse> loader = data::postBody;
+        loader.load(packageApi.getDriverOrders(userRepository.getToken()), data);
+        return data;
+    }
+
+    public ResponseLiveData<DeliverResponse> deliver(DeliverForm form){
+        ResponseLiveData<DeliverResponse> data = new ResponseLiveData<>();
+        Loader<DeliverResponse> loader = data::postBody;
+        loader.load(packageApi.deliver(userRepository.getToken(), form), data);
+        return data;
     }
 
 }

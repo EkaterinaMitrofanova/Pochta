@@ -90,7 +90,7 @@ public class StoragesFragment extends Fragment implements BaseView<List<MyStorag
 
         dialog.setPositiveButton("Готово", (dialog1, arg1) -> {
             if (cityId == -1) return;
-            repository.getStorages(cityId, null).observe(
+            repository.getStoragesForDriver(cityId).observe(
                     StoragesFragment.this,
                     storagesResponse -> fillViews(storagesResponse.getMyStorages()),
                     status -> startLoading(status == ResponseLiveData.Status.LOADING),

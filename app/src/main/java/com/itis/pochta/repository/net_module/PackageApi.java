@@ -30,7 +30,7 @@ public interface PackageApi {
 
     @GET("/storage?type=2")
     Observable<BaseResponse<StoragesResponse>> getStoragesForDriver(
-            @Query("city_id") String country);
+            @Query("city_id") long country);
 
     @POST("package")
     Observable<BaseResponse<PackageResponse>> issuePackage(

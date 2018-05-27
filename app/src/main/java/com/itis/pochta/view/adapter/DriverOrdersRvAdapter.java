@@ -1,5 +1,6 @@
 package com.itis.pochta.view.adapter;
 
+import android.arch.lifecycle.ViewModel;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -41,14 +42,11 @@ public class DriverOrdersRvAdapter extends RecyclerView.Adapter<DriverOrdersRvAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order order = orders.get(position);
         holder.binding.setOrder(order);
-        holder.binding.actionAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemListener.deliver(order.getDestination(), order.getTicket())){
-                    ((Button)v).setText("Отмена");
-                } else {
-                    ((Button)v).setText("Выбрать");
-                }
+        holder.binding.actionAccept.setOnClickListener(v -> {
+            if (itemListener.deliver(order.getDestination(), order.getTicket())){
+                ((Button)v).setText("Отмена");
+            } else {
+                ((Button)v).setText("Выбрать");
             }
         });
     }
@@ -66,6 +64,13 @@ public class DriverOrdersRvAdapter extends RecyclerView.Adapter<DriverOrdersRvAd
         ViewHolder(View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
+            binding.actionAccept.setText("Выбрать");
+            binding.llValue.setVisibility(View.GONE);
+            binding.vValue.setVisibility(View.GONE);
+            binding.llWeight.setVisibility(View.GONE);
+            binding.vWeight.setVisibility(View.GONE);
+            binding.weight.setVisibility(View.GONE);
+            binding.volume.setVisibility(View.GONE);
         }
     }
 

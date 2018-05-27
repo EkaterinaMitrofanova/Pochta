@@ -29,6 +29,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ll_value"
                 style="@style/LineItem">
                 <TextView
                     style="@style/LineMainText"
@@ -41,11 +42,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/v_value"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorHint"/>
 
             <LinearLayout
+                android:id="@+id/ll_weight"
                 style="@style/LineItem">
                 <TextView
                     style="@style/LineMainText"
@@ -58,6 +61,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/v_weight"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorHint"/>

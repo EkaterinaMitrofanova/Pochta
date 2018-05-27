@@ -59,7 +59,10 @@ public class PackageFragment extends Fragment implements View.OnClickListener{
                 this,
                 citiesResponse -> setCities(citiesResponse.getCities()),
                 status -> startLoading(status == ResponseLiveData.Status.LOADING),
-                throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+                throwable -> {
+                    viewModel.setNotLoaded();
+                    Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }
         );
 
         initViews();

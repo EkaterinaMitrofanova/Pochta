@@ -10,11 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.itis.pochta.App;
 import com.itis.pochta.R;
 import com.itis.pochta.databinding.FragmentOrdersBinding;
 import com.itis.pochta.model.base.Order;
 import com.itis.pochta.model.request.DeliverForm;
 import com.itis.pochta.model.request.PackageForm;
+import com.itis.pochta.model.response.DeliverResponse;
+import com.itis.pochta.repository.PackageRepository;
+import com.itis.pochta.repository.utils.ResponseLiveData;
 import com.itis.pochta.view.BaseView;
 import com.itis.pochta.view.adapter.DriverOrdersRvAdapter;
 import com.itis.pochta.view.adapter.OrdersRvAdapter;
@@ -24,23 +28,33 @@ import com.itis.pochta.view.listener.ViewListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeliverPackagesFragment extends Fragment implements DriverOrderListener, BaseView<List<Order>>{
+import javax.inject.Inject;
+
+public class DeliverPackagesFragment extends Fragment implements DriverOrderListener, BaseView<List<Order>> {
 
     private FragmentOrdersBinding binding;
     private ViewListener viewListener;
     private List<Order> orderList;
     private DeliverForm deliverForm;
 
+    @Inject
+    PackageRepository repository;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
+        App.getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false);
 
         viewListener = (ViewListener) getActivity();
         viewListener.setFragment(getTag());
         viewListener.setTitle(R.string.title_orders);
 
-        //todo: Загрузить посылки водителя [22] . getDriverOrders в апи
+        repository.getDriverOrders().observe(
+                this,
+                ordersResponse -> fillViews(ordersResponse.getOrders()),
+                status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+        );
 
         initViews();
         return binding.getRoot();
@@ -51,12 +65,31 @@ public class DeliverPackagesFragment extends Fragment implements DriverOrderList
         binding.rv.setAdapter(new DriverOrdersRvAdapter(orderList, this));
     }
 
-    public void deliver(){
-        //todo: Подтвердить доставку [8] deliver
+    public void deliver() {
+        if (deliverForm == null) return;
+        repository.deliver(deliverForm).observe(
+                this,
+                this::onSuccess,
+                status -> startLoading(status == ResponseLiveData.Status.LOADING),
+                throwable -> Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show()
+        );
     }
 
-    private void onSuccess(){
-        orderList = null;
+    private void onSuccess(DeliverResponse deliverResponse) {
+        if (deliverResponse.getStatus().equals("ok")) {
+            try {
+                for (Order order: orderList){
+                    if (deliverForm.getTickets().contains(order.getTicket())){
+                        orderList.remove(order);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            deliverForm = null;
+        } else {
+            Toast.makeText(getContext(), "Некоторые посылки не доставлены", Toast.LENGTH_LONG).show();
+        }
         binding.rv.setAdapter(new DriverOrdersRvAdapter(orderList, this));
     }
 
@@ -71,7 +104,7 @@ public class DeliverPackagesFragment extends Fragment implements DriverOrderList
             Toast.makeText(getActivity(), "Посылка для другого пункта", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (deliverForm.getTickets().contains(ticket)){
+        if (deliverForm.getTickets().contains(ticket)) {
             deliverForm.getTickets().remove(ticket);
             if (deliverForm.getTickets().size() == 0) deliverForm.setStorageId(-1);
             return false;
